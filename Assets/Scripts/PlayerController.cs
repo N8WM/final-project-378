@@ -122,10 +122,11 @@ public class PlayerController : MonoBehaviour
             6. Idle
         */
         if (!DO_ANIMATION) return;
-        animator.SetFloat("Speed", Mathf.Abs(rb.velocity.x));
+        animator.SetFloat("Speed", rb.velocity.x);
+        animator.SetFloat("VerticalSpeed", rb.velocity.y);
+        animator.SetBool("IsStopped", Mathf.Abs(rb.velocity.x) <= 0.01f);
         animator.SetBool("IsGrounded", isGrounded);
         animator.SetBool("IsCrouching", isCrouching);
-        animator.SetFloat("VerticalSpeed", rb.velocity.y);
     }
 
     void OnMove(InputValue movementValue)
