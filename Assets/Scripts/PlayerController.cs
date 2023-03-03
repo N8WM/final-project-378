@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private Animator animator;
     private ParticleSystem dust;
+    private SpriteRenderer sr;
 
     private bool isGrounded = false;
     private bool isJumping = false;
@@ -25,6 +26,8 @@ public class PlayerController : MonoBehaviour
     private float movement = 0.0f;
     private float jumpForce = 9.0f;
     private float timeSinceLastJump = -1f;
+
+    private float DELTA = 0.01f;
 
     void Awake()
     {
@@ -39,6 +42,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         dust = GetComponentInChildren<ParticleSystem>();
+        sr = GetComponent<SpriteRenderer>();
     }
 
     void FixedUpdate()
@@ -120,10 +124,18 @@ public class PlayerController : MonoBehaviour
             4. Jump
             5. Run
             6. Idle
-        */
-        if (!DO_ANIMATION) return;
-        animator.SetFloat("Speed", rb.velocity.x);
-        animator.SetFloat("VerticalSpeed", rb.velocity.y);
+        */ 
+        if (rb.velocity.x < -DELTA && !sr.flipX && isGrounded)
+        {
+            sr.flipX = true;
+        } 
+        else if (rb.velocity.x > DELTA && sr.flipX && isGrounded)
+        {
+            sr.flipX = false;
+        }
+        // if (!DO_ANIMATION) return;
+        animator.SetFloat("SpeedX", rb.velocity.x);
+        animator.SetFloat("SpeedY", rb.velocity.y);
         animator.SetBool("IsStopped", Mathf.Abs(rb.velocity.x) <= 0.01f);
         animator.SetBool("IsGrounded", isGrounded);
         animator.SetBool("IsCrouching", isCrouching);
