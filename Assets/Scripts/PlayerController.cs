@@ -5,13 +5,14 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    public static PlayerController _instance;
+
     public float groundSpeed = 80.0f;
     public float airSpeed = 3.0f;
     public float maxSpeed = 5.0f;
 
     private bool DO_ANIMATION = false;
 
-    private GameManager gameManager;
     private Rigidbody2D rb;
     private Animator animator;
     private ParticleSystem dust;
@@ -27,8 +28,10 @@ public class PlayerController : MonoBehaviour
 
     void Awake()
     {
-        gameManager = FindObjectOfType<GameManager>();
-        gameManager._player = this;
+        if (_instance != this && _instance != null)
+            Destroy(gameObject);
+        else
+            _instance = this;
     }
 
     void Start()

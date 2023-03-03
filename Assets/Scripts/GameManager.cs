@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public PlayerController _player;
-    public CameraController _camera;
+    public static GameManager _instance;
 
     void Awake() {
         if (FindObjectsOfType(GetType()).Length > 1)
             Destroy(gameObject);
         else
             DontDestroyOnLoad(gameObject);
+    
+        _instance = this;
     }
 }

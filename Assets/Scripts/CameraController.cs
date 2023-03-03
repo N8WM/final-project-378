@@ -4,14 +4,17 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
+    public static CameraController _instance;
+
     public Vector2 offset = new Vector2(0f, 1f);
     public float smoothTime = 3f;
-    private GameManager gameManager;
 
     void Awake()
     {
-        gameManager = FindObjectOfType<GameManager>();
-        gameManager._camera = this;
+        if (_instance != this && _instance != null)
+            Destroy(gameObject);
+        else
+            _instance = this;
     }
 
     void Start()
@@ -27,8 +30,8 @@ public class CameraController : MonoBehaviour
     Vector3 GetTargetPosition()
     {
         return new Vector3(
-            gameManager._player.transform.position.x,
-            gameManager._player.transform.position.y,
+            PlayerController._instance.transform.position.x,
+            PlayerController._instance.transform.position.y,
             transform.position.z
         ) + new Vector3(offset.x, offset.y, 0);
     }
