@@ -125,20 +125,21 @@ public class PlayerController : MonoBehaviour
             5. Run
             6. Idle
         */ 
-        if (rb.velocity.x < -DELTA && !sr.flipX && isGrounded)
+        if (rb.velocity.x < -DELTA && !sr.flipX)
         {
             sr.flipX = true;
         } 
-        else if (rb.velocity.x > DELTA && sr.flipX && isGrounded)
+        else if (rb.velocity.x > DELTA && sr.flipX)
         {
             sr.flipX = false;
         }
         // if (!DO_ANIMATION) return;
         animator.SetFloat("SpeedX", rb.velocity.x);
         animator.SetFloat("SpeedY", rb.velocity.y);
-        animator.SetBool("IsStopped", Mathf.Abs(rb.velocity.x) <= 0.01f);
+        animator.SetBool("IsStopped", Mathf.Abs(rb.velocity.x) < 3.0f);
         animator.SetBool("IsGrounded", isGrounded);
         animator.SetBool("IsCrouching", isCrouching);
+        animator.SetBool("IsMoving", Mathf.Abs(movement) > DELTA);
     }
 
     void OnMove(InputValue movementValue)
@@ -157,7 +158,7 @@ public class PlayerController : MonoBehaviour
 
     void OnCrouch(InputValue crouchValue)
     {
-        if (crouchValue.isPressed && isGrounded) isCrouching = true;
+        if (crouchValue.isPressed) isCrouching = true;
         else isCrouching = false;
     }
 
