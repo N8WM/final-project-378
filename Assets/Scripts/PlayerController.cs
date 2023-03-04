@@ -148,7 +148,6 @@ public class PlayerController : MonoBehaviour
             if (walking || idle || landing)
                 animator.SetBool("IsTurningAround", true);
             else if (isPouncing) sr.flipX = !sr.flipX;
-            print("Gonna flip X");
         }
         
         animator.SetFloat("SpeedX", rb.velocity.x);
