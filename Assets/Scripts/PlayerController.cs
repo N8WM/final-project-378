@@ -160,6 +160,11 @@ public class PlayerController : MonoBehaviour
         else isCrouching = false;
     }
 
+    public void OnDeath()
+    {
+        // TODO: Add death animation
+    }
+
     void GroundCheck()
     {
         isGrounded = Physics2D.OverlapBox(

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - KillWhenFall
   - RespawnWhenFall
+  - DeathPanel
   layers:
   - Default
   - TransparentFX

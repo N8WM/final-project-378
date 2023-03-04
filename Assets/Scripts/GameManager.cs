@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -21,6 +22,11 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        Reset();
+    }
+
+    void Reset()
+    {
         killWhenFall = GameObject.FindGameObjectsWithTag("KillWhenFall");
         respawnWhenFall = GameObject.FindGameObjectsWithTag("RespawnWhenFall");
         respawnPoints = new Vector3[respawnWhenFall.Length];
@@ -30,20 +36,47 @@ public class GameManager : MonoBehaviour
 
     void FixedUpdate()
     {
-        for (int i = 0; i < killWhenFall.Length; i++)
-            if (killWhenFall[i].transform.position.y < respawnHeight)
-                OnDeath();
+        for (int i = 0; i < killWhenFall.Length; i++) {
+            if (killWhenFall[i] != null)
+                if (killWhenFall[i].transform.position.y < respawnHeight)
+                    OnDeath();
+            else {
+                Reset();
+                i = 0;
+            }
+        }
 
         for (int i = 0; i < respawnWhenFall.Length; i++) {
-            if (respawnWhenFall[i].transform.position.y < respawnHeight) {
-                respawnWhenFall[i].transform.position = respawnPoints[i];
-                respawnWhenFall[i].GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            if (respawnWhenFall[i] != null) {
+                if (respawnWhenFall[i].transform.position.y < respawnHeight) {
+                    respawnWhenFall[i].transform.position = respawnPoints[i];
+                    respawnWhenFall[i].GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+                }
+            }
+            else {
+                Reset();
+                i = 0;
             }
         }
     }
 
     void OnDeath()
     {
-        return;
+        PlayerController._instance.OnDeath();
+        DeathPanelController._instance.Show();
+        Time.timeScale = 0.1f;
+    }
+
+    public void Retry()
+    {
+        Time.timeScale = 1;
+        Scene currentScene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(currentScene.name);
+    }
+
+    public void Menu()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene("Menu"); // replace with menu scene name
     }
 }
