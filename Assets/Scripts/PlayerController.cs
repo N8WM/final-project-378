@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
     public static PlayerController _instance;
 
     public float groundSpeed = 80.0f;
-    public float airSpeed = 3.0f;
+    public float airSpeed = 6.0f;
     public float maxSpeed = 5.0f;
     public float maxSpeedCrouching = 1.5f;
     public float jumpForce = 10.0f;
@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour
 
     private float movement = 0.0f;
     private float timeSinceLastJump = -1f;
+    private float colliderStartOffsetX;
 
     private float DELTA = 0.01f;
 
@@ -47,6 +48,8 @@ public class PlayerController : MonoBehaviour
         dust = GetComponentInChildren<ParticleSystem>();
         sr = GetComponent<SpriteRenderer>();
         bc = GetComponent<BoxCollider2D>();
+
+        colliderStartOffsetX = bc.offset.x;
     }
 
     void FixedUpdate()
@@ -103,35 +106,6 @@ public class PlayerController : MonoBehaviour
 
     void UpdateAnimationSeq()
     {
-        /* Animations:
-            * 1. Idle
-            * 2. Run
-            * 3. Jump
-            * 4. Crouch
-            * 5. Fall
-            * 6. Death
-         * Transitions:
-            * Idle -> Run
-            * Idle -> Jump
-            * Idle -> Crouch
-            * Run -> Idle
-            * Run -> Jump
-            * Run -> Crouch
-            * Jump -> Fall
-            * Fall -> Idle
-            * Fall -> Run
-            * Crouch -> Idle
-            * Crouch -> Run
-            * Any -> Death
-         * Priority:
-            1. Death
-            2. Fall
-            3. Crouch (will not occur if player is not grounded)
-            4. Jump
-            5. Run
-            6. Idle
-        */ 
-
         bool walking = animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "Cat_Walking";
         bool idle = animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "Cat_Idle";
         bool turning = animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "Cat_TurningAround";
@@ -157,11 +131,13 @@ public class PlayerController : MonoBehaviour
         
         animator.SetFloat("SpeedX", rb.velocity.x);
         animator.SetFloat("SpeedY", rb.velocity.y);
-        animator.SetBool("IsStopped", Mathf.Abs(rb.velocity.x) < maxSpeedCrouching - DELTA);
+        animator.SetBool("IsStopped", Mathf.Abs(rb.velocity.x) < DELTA);
         animator.SetBool("IsGrounded", isGrounded);
         animator.SetBool("IsCrouching", isCrouching);
         animator.SetBool("IsMoving", Mathf.Abs(movement) > DELTA);
         
+        if (sr.flipX) bc.offset = new Vector2(-colliderStartOffsetX, bc.offset.y);
+        else bc.offset = new Vector2(colliderStartOffsetX, bc.offset.y);
     }
 
     void OnMove(InputValue movementValue)
@@ -190,7 +166,7 @@ public class PlayerController : MonoBehaviour
             new Vector2(transform.position.x + bc.offset.x, transform.position.y + bc.offset.y - bc.size.y / 2f),
             new Vector2(transform.localScale.x * bc.size.x - 0.06f, 0.1f),
             0f,
-            LayerMask.GetMask("Ground")
+            LayerMask.GetMask("Ground") | LayerMask.GetMask("Movable")
         );
     }
 
