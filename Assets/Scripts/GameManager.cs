@@ -10,19 +10,19 @@ public class GameManager : MonoBehaviour
     GameObject[] killWhenFall;
     GameObject[] respawnWhenFall;
     Vector3[] respawnPoints;
+    bool wonState = false;
+    bool deathState = false;
 
     void Awake() {
-        if (FindObjectsOfType(GetType()).Length > 1)
+        if (GameObject.FindObjectsOfType<GameManager>().Length > 1 && GameManager._instance != this) {
             Destroy(gameObject);
-        else
-            DontDestroyOnLoad(gameObject);
+            return;
+        }
+        DontDestroyOnLoad(gameObject);
     
         _instance = this;
-    }
 
-    void Start()
-    {
-        Reset();
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     void Reset()
@@ -32,39 +32,55 @@ public class GameManager : MonoBehaviour
         respawnPoints = new Vector3[respawnWhenFall.Length];
         for (int i = 0; i < respawnWhenFall.Length; i++)
             respawnPoints[i] = respawnWhenFall[i].transform.position;
+        wonState = false;
+        deathState = false;
     }
 
     void FixedUpdate()
     {
-        for (int i = 0; i < killWhenFall.Length; i++) {
-            if (killWhenFall[i] != null)
-                if (killWhenFall[i].transform.position.y < respawnHeight)
-                    OnDeath();
-            else {
-                Reset();
-                i = 0;
-            }
-        }
+        if (wonState || deathState) return;
+        for (int i = 0; i < killWhenFall.Length; i++)
+            if (killWhenFall[i].transform.position.y < respawnHeight)
+                OnDeath();
 
         for (int i = 0; i < respawnWhenFall.Length; i++) {
-            if (respawnWhenFall[i] != null) {
-                if (respawnWhenFall[i].transform.position.y < respawnHeight) {
-                    respawnWhenFall[i].transform.position = respawnPoints[i];
-                    respawnWhenFall[i].GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-                }
-            }
-            else {
-                Reset();
-                i = 0;
+            if (respawnWhenFall[i].transform.position.y < respawnHeight) {
+                respawnWhenFall[i].transform.position = respawnPoints[i];
+                respawnWhenFall[i].GetComponent<Rigidbody2D>().velocity = Vector2.zero;
             }
         }
     }
 
-    void OnDeath()
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        Reset();
+    }
+
+    public void OnDeath()
+    {
+        if (wonState) return;
+        deathState = true;
         PlayerController._instance.OnDeath();
         DeathPanelController._instance.Show();
         Time.timeScale = 0.1f;
+    }
+
+    public void WonLevel()
+    {
+        // PlayerController._instance.WonLevel();
+        if (deathState) return;
+        wonState = true;
+        WonPanelController._instance.Show();
+        Time.timeScale = 0.1f;
+    }
+
+    public void NextLevel()
+    {
+        Time.timeScale = 1;
+        Scene currentScene = SceneManager.GetActiveScene();
+         // this will be replaced with a level selection screen
+        if (currentScene.buildIndex + 1 < SceneManager.sceneCountInBuildSettings)
+            SceneManager.LoadScene(currentScene.buildIndex + 1);
     }
 
     public void Retry()
@@ -77,6 +93,6 @@ public class GameManager : MonoBehaviour
     public void Menu()
     {
         Time.timeScale = 1;
-        SceneManager.LoadScene("Menu"); // replace with menu scene name
+        SceneManager.LoadScene("Scenes/Menu"); // replace with menu scene name
     }
 }

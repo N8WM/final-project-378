@@ -160,6 +160,12 @@ public class PlayerController : MonoBehaviour
         else isCrouching = false;
     }
 
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Door"))
+            GameManager._instance.WonLevel();
+    }
+
     public void OnDeath()
     {
         // TODO: Add death animation
