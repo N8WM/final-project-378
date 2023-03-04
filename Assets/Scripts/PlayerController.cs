@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     public float groundSpeed = 80.0f;
     public float airSpeed = 3.0f;
     public float maxSpeed = 5.0f;
+    public float jumpForce = 10.0f;
 
     private bool DO_ANIMATION = true;
 
@@ -25,7 +26,6 @@ public class PlayerController : MonoBehaviour
     private bool isPouncing = false;  // Just used for turning around
 
     private float movement = 0.0f;
-    private float jumpForce = 9.0f;
     private float timeSinceLastJump = -1f;
 
     private float DELTA = 0.01f;
