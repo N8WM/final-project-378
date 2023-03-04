@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     public float groundSpeed = 80.0f;
     public float airSpeed = 3.0f;
     public float maxSpeed = 5.0f;
+    public float maxSpeedCrouching = 1.5f;
     public float jumpForce = 10.0f;
 
     private bool DO_ANIMATION = true;
@@ -83,7 +84,8 @@ public class PlayerController : MonoBehaviour
         else
             timeSinceLastJump = -1f;
 
-        rb.velocity = new Vector2(Mathf.Clamp(rb.velocity.x, -maxSpeed, maxSpeed), rb.velocity.y);
+        float tmp_maxSpeed = (isCrouching && isGrounded) ? maxSpeedCrouching : maxSpeed;
+        rb.velocity = new Vector2(Mathf.Clamp(rb.velocity.x, -tmp_maxSpeed, tmp_maxSpeed), rb.velocity.y);
 
         UpdateAnimationSeq();
     }
@@ -145,14 +147,17 @@ public class PlayerController : MonoBehaviour
 
         if (((movement < -DELTA && !sr.flipX) || (movement > DELTA && sr.flipX)) && !animator.GetBool("IsTurningAround"))
         {
-            if (walking || idle || landing)
+            if (isPouncing) {
+                sr.flipX = !sr.flipX;
+                isPouncing = false;
+            }
+            else if (walking || idle || landing)
                 animator.SetBool("IsTurningAround", true);
-            else if (isPouncing) sr.flipX = !sr.flipX;
         }
         
         animator.SetFloat("SpeedX", rb.velocity.x);
         animator.SetFloat("SpeedY", rb.velocity.y);
-        animator.SetBool("IsStopped", Mathf.Abs(rb.velocity.x) < maxSpeed / 2f);
+        animator.SetBool("IsStopped", Mathf.Abs(rb.velocity.x) < maxSpeedCrouching - DELTA);
         animator.SetBool("IsGrounded", isGrounded);
         animator.SetBool("IsCrouching", isCrouching);
         animator.SetBool("IsMoving", Mathf.Abs(movement) > DELTA);
