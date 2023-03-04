@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
     private bool isJumping = false;
     private bool isCrouching = false;
     private bool isAccelerating = false;  // Just used for dust effect
+    private bool isPouncing = false;  // Just used for turning around
 
     private float movement = 0.0f;
     private float jumpForce = 9.0f;
@@ -72,7 +73,8 @@ public class PlayerController : MonoBehaviour
         if (timeSinceLastJump >= 0 && Mathf.Abs(movement) > 0.01f) {
             rb.AddForce(Vector3.right * movement * jumpForce * 0.5f, ForceMode2D.Impulse);
             timeSinceLastJump = -1f;
-        }
+            isPouncing = true;
+        } else isPouncing = false;
 
         if (timeSinceLastJump >= 0f && timeSinceLastJump <= 0.1f)
             timeSinceLastJump += Time.deltaTime;
@@ -126,17 +128,24 @@ public class PlayerController : MonoBehaviour
             6. Idle
         */ 
 
+        bool walking = animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "Cat_Walking";
+        bool idle = animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "Cat_Idle";
+        bool turning = animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "Cat_TurningAround";
+
         if (!DO_ANIMATION) return;
 
-        if (animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "Cat_TurningAround")
+        if (turning)
         {
             sr.flipX = !sr.flipX;
             animator.SetBool("IsTurningAround", false);
         }
 
-        if ((rb.velocity.x < -DELTA && !sr.flipX) || (rb.velocity.x > DELTA && sr.flipX))
+        if (((movement < -DELTA && !sr.flipX) || (movement > DELTA && sr.flipX)) && !animator.GetBool("IsTurningAround"))
         {
-            animator.SetBool("IsTurningAround", true);
+            if (walking || idle)
+                animator.SetBool("IsTurningAround", true);
+            else if (isPouncing) sr.flipX = !sr.flipX;
+            print("Gonna flip X");
         }
         
         animator.SetFloat("SpeedX", rb.velocity.x);
