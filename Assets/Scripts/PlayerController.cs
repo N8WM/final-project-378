@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     private Animator animator;
     private ParticleSystem dust;
     private SpriteRenderer sr;
+    private BoxCollider2D bc;
 
     private bool isGrounded = false;
     private bool isJumping = false;
@@ -44,6 +45,7 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         dust = GetComponentInChildren<ParticleSystem>();
         sr = GetComponent<SpriteRenderer>();
+        bc = GetComponent<BoxCollider2D>();
     }
 
     void FixedUpdate()
@@ -131,6 +133,7 @@ public class PlayerController : MonoBehaviour
         bool walking = animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "Cat_Walking";
         bool idle = animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "Cat_Idle";
         bool turning = animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "Cat_TurningAround";
+        bool landing = animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "Cat_Landing";
 
         if (!DO_ANIMATION) return;
 
@@ -142,7 +145,7 @@ public class PlayerController : MonoBehaviour
 
         if (((movement < -DELTA && !sr.flipX) || (movement > DELTA && sr.flipX)) && !animator.GetBool("IsTurningAround"))
         {
-            if (walking || idle)
+            if (walking || idle || landing)
                 animator.SetBool("IsTurningAround", true);
             else if (isPouncing) sr.flipX = !sr.flipX;
             print("Gonna flip X");
@@ -180,8 +183,8 @@ public class PlayerController : MonoBehaviour
     void GroundCheck()
     {
         isGrounded = Physics2D.OverlapBox(
-            new Vector2(transform.position.x, transform.position.y - transform.localScale.y / 2f),
-            new Vector2(transform.localScale.x - 0.06f, 0.1f),
+            new Vector2(transform.position.x + bc.offset.x, transform.position.y + bc.offset.y - bc.size.y / 2f),
+            new Vector2(transform.localScale.x * bc.size.x - 0.06f, 0.1f),
             0f,
             LayerMask.GetMask("Ground")
         );
@@ -190,9 +193,10 @@ public class PlayerController : MonoBehaviour
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
+        BoxCollider2D bc = GetComponent<BoxCollider2D>();
         Gizmos.DrawWireCube(
-            new Vector2(transform.position.x, transform.position.y - transform.localScale.y / 2f),
-            new Vector2(transform.localScale.x - 0.06f, 0.1f)
+            new Vector2(transform.position.x + bc.offset.x, transform.position.y + bc.offset.y - bc.size.y / 2f),
+            new Vector2(transform.localScale.x * bc.size.x - 0.06f, 0.1f)
         );
     }
 }
