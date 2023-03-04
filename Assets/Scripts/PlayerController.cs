@@ -136,7 +136,7 @@ public class PlayerController : MonoBehaviour
         // if (!DO_ANIMATION) return;
         animator.SetFloat("SpeedX", rb.velocity.x);
         animator.SetFloat("SpeedY", rb.velocity.y);
-        animator.SetBool("IsStopped", Mathf.Abs(rb.velocity.x) < 3.0f);
+        animator.SetBool("IsStopped", Mathf.Abs(rb.velocity.x) < maxSpeed / 2f);
         animator.SetBool("IsGrounded", isGrounded);
         animator.SetBool("IsCrouching", isCrouching);
         animator.SetBool("IsMoving", Mathf.Abs(movement) > DELTA);
