@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     public float airSpeed = 3.0f;
     public float maxSpeed = 5.0f;
 
-    private bool DO_ANIMATION = false;
+    private bool DO_ANIMATION = true;
 
     private Rigidbody2D rb;
     private Animator animator;
@@ -125,21 +125,27 @@ public class PlayerController : MonoBehaviour
             5. Run
             6. Idle
         */ 
-        if (rb.velocity.x < -DELTA && !sr.flipX)
+
+        if (!DO_ANIMATION) return;
+
+        if (animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "Cat_TurningAround")
         {
-            sr.flipX = true;
-        } 
-        else if (rb.velocity.x > DELTA && sr.flipX)
-        {
-            sr.flipX = false;
+            sr.flipX = !sr.flipX;
+            animator.SetBool("IsTurningAround", false);
         }
-        // if (!DO_ANIMATION) return;
+
+        if ((rb.velocity.x < -DELTA && !sr.flipX) || (rb.velocity.x > DELTA && sr.flipX))
+        {
+            animator.SetBool("IsTurningAround", true);
+        }
+        
         animator.SetFloat("SpeedX", rb.velocity.x);
         animator.SetFloat("SpeedY", rb.velocity.y);
         animator.SetBool("IsStopped", Mathf.Abs(rb.velocity.x) < maxSpeed / 2f);
         animator.SetBool("IsGrounded", isGrounded);
         animator.SetBool("IsCrouching", isCrouching);
         animator.SetBool("IsMoving", Mathf.Abs(movement) > DELTA);
+        
     }
 
     void OnMove(InputValue movementValue)
