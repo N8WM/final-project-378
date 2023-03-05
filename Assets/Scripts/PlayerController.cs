@@ -21,11 +21,17 @@ public class PlayerController : MonoBehaviour
     private SpriteRenderer sr;
     private BoxCollider2D bc;
 
+    private Vector2 defaultColliderOffset;
+    private Vector2 defaultColliderSize;
+
     private bool isGrounded = false;
+    private bool isTouchingCeiling = false;
     private bool isJumping = false;
     private bool isCrouching = false;
     private bool isAccelerating = false;  // Just used for dust effect
     private bool isPouncing = false;  // Just used for turning around
+    private bool isTryingToCrouch = false; // Just used for automatically undoing crouch
+    private bool isTouchingWall = false; // Prevents clipping under walls when turning around
 
     private float movement = 0.0f;
     private float timeSinceLastJump = -1f;
@@ -49,12 +55,19 @@ public class PlayerController : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         bc = GetComponent<BoxCollider2D>();
 
+        defaultColliderOffset = bc.offset;
+        defaultColliderSize = bc.size;
         colliderStartOffsetX = bc.offset.x;
+
+        
     }
 
     void FixedUpdate()
     {
         GroundCheck();
+        CeilingCheck();
+        PerformCrouch(isTryingToCrouch); // automatocally undoes crouching when not under ceiling
+        WallCheck();
 
         if (Mathf.Abs(movement) > 0.01f) {
             if (!isAccelerating && isGrounded) {
@@ -125,7 +138,7 @@ public class PlayerController : MonoBehaviour
                 sr.flipX = !sr.flipX;
                 isPouncing = false;
             }
-            else if (walking || idle || landing)
+            else if ((walking || idle || landing) && !isTouchingWall)
                 animator.SetBool("IsTurningAround", true);
         }
         
@@ -133,6 +146,7 @@ public class PlayerController : MonoBehaviour
         animator.SetFloat("SpeedY", rb.velocity.y);
         animator.SetBool("IsStopped", Mathf.Abs(rb.velocity.x) < DELTA);
         animator.SetBool("IsGrounded", isGrounded);
+        animator.SetBool("IsTouchingCeiling", isTouchingCeiling);
         animator.SetBool("IsCrouching", isCrouching);
         animator.SetBool("IsMoving", Mathf.Abs(movement) > DELTA);
         
@@ -147,7 +161,7 @@ public class PlayerController : MonoBehaviour
 
     void OnJump(InputValue jumpValue)
     {
-        if (jumpValue.isPressed && isGrounded) {
+        if (jumpValue.isPressed && isGrounded && !isTouchingCeiling) {
             isJumping = true;
             isCrouching = false;
         }
@@ -156,8 +170,26 @@ public class PlayerController : MonoBehaviour
 
     void OnCrouch(InputValue crouchValue)
     {
-        if (crouchValue.isPressed) isCrouching = true;
-        else isCrouching = false;
+        isTryingToCrouch = crouchValue.isPressed;
+    }
+
+    void PerformCrouch(bool shouldCrouch)
+    {
+        if (shouldCrouch)
+        {
+            isCrouching = true;
+            bc.offset = new Vector2(bc.offset.x, -0.2f);
+            bc.size = new Vector2(bc.size.x, 0.53f);
+        }
+        else
+        { 
+            if (isCrouching && !isTouchingCeiling)
+            {
+                isCrouching = false;
+                bc.offset = defaultColliderOffset;
+                bc.size = defaultColliderSize;
+            }
+        }
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -181,13 +213,41 @@ public class PlayerController : MonoBehaviour
         );
     }
 
+    void CeilingCheck()
+    {
+        isTouchingCeiling = Physics2D.OverlapBox(
+            new Vector2(transform.position.x + bc.offset.x, 0.2f + transform.position.y + bc.offset.y + bc.size.y / 2f),
+            new Vector2(transform.localScale.x * bc.size.x - 0.06f, 0.1f),
+            0f,
+            LayerMask.GetMask("Ground")
+        );
+    }
+
+    void WallCheck()
+    {
+        isTouchingWall = Physics2D.OverlapBox(
+            new Vector2(transform.position.x + bc.offset.x - ((sr.flipX ? -1f : 1f) * (bc.size.x) * 1.3f), transform.position.y + bc.offset.y),
+            new Vector2(0.1f, transform.localScale.y * bc.size.y - 0.06f),
+            0f,
+            LayerMask.GetMask("Ground")
+        );
+    }
+
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
         BoxCollider2D bc = GetComponent<BoxCollider2D>();
-        Gizmos.DrawWireCube(
+        Gizmos.DrawWireCube( // Ground
             new Vector2(transform.position.x + bc.offset.x, transform.position.y + bc.offset.y - bc.size.y / 2f),
             new Vector2(transform.localScale.x * bc.size.x - 0.06f, 0.1f)
+        );
+        Gizmos.DrawWireCube( // Ceiling
+            new Vector2(transform.position.x + bc.offset.x, 0.2f + transform.position.y + bc.offset.y + bc.size.y / 2f),
+            new Vector2(transform.localScale.x * bc.size.x - 0.06f, 0.1f)
+        );
+        Gizmos.DrawWireCube( // Wall
+            new Vector2(transform.position.x + bc.offset.x - (bc.size.y * 1.3f), transform.position.y + bc.offset.y),
+            new Vector2(0.1f, transform.localScale.y * bc.size.y - 0.06f)
         );
     }
 }
