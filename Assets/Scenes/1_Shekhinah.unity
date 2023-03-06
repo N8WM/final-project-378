@@ -1487,7 +1487,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyItem: {fileID: 2126476115}
-  ItemReceiever: {fileID: 1401523276}
+  ItemReceievers:
+  - {fileID: 1570070286}
   keyItemDistance: 5
 --- !u!61 &479867704
 BoxCollider2D:

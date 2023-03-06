@@ -5,7 +5,7 @@ using UnityEngine;
 public class ItemReceivingController : MonoBehaviour
 {
     public GameObject keyItem;
-    public GameObject ItemReceiever;
+    public GameObject[] ItemReceievers;
     public float keyItemDistance = 5f;
     private BoxCollider2D bc;
 
@@ -22,7 +22,8 @@ public class ItemReceivingController : MonoBehaviour
             {
                 // Play destroy animation
                 Destroy(keyItem);
-                Destroy(ItemReceiever);
+                for (int i = 0; i < ItemReceievers.Length; i++)
+                    Destroy(ItemReceievers[i]);
                 Destroy(gameObject);
             }
         }
