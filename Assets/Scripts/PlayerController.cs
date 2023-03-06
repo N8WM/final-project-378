@@ -108,7 +108,7 @@ public class PlayerController : MonoBehaviour
 
     void ApplyDrag()
     {
-        if (!isJumping && isGrounded && Mathf.Abs(movement) <= 0.01f) rb.drag = 25f;
+        if (!isJumping && isGrounded && Mathf.Abs(movement) <= 0.01f) rb.drag = 100f;
         else rb.drag = 0.3f;
     }
 
