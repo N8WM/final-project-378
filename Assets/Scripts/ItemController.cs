@@ -5,7 +5,7 @@ using UnityEngine;
 public class ItemController : MonoBehaviour
 {
     public Vector2 offset;
-    public float smoothTime = 8f;
+    public float smoothTime = 3f;
     private BoxCollider2D bc;
     private bool wasObtained = false;
 
@@ -28,11 +28,13 @@ public class ItemController : MonoBehaviour
 
     Vector3 GetTargetPosition()
     {
+        PlayerController pc = PlayerController._instance;
+
         return new Vector3(
-            PlayerController._instance.transform.position.x,
-            PlayerController._instance.transform.position.y,
+            pc.transform.position.x,
+            pc.transform.position.y,
             transform.position.z
-        ) + new Vector3(offset.x, offset.y, 0);
+        ) + new Vector3(offset.x * pc.GetDirection(), offset.y, 0);
     }
 
     Vector3 LerpPos()
@@ -41,10 +43,7 @@ public class ItemController : MonoBehaviour
         return Vector3.Lerp(
             transform.position,
             targetPos,
-            (
-                Time.deltaTime *
-                Mathf.Pow(Vector3.Distance(transform.position, targetPos), 2) / smoothTime
-            )
+            Time.deltaTime * smoothTime
         );
     }
 }

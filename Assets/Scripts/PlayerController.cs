@@ -240,6 +240,11 @@ public class PlayerController : MonoBehaviour
         );
     }
 
+    public int GetDirection()
+    {
+        return sr.flipX ? -1 : 1;
+    }
+
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
