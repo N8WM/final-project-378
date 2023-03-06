@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement name="Background" style="flex-grow: 1; background-color: rgb(245, 184, 184);" />
+    <ui:VisualElement name="Menu" style="width: auto; margin-left: 400px; margin-right: 400px; margin-top: 178px; margin-bottom: 111px; flex-direction: column; flex-shrink: 0; position: relative; top: auto; bottom: auto; transform-origin: center; translate: 0 0; background-color: rgb(255, 155, 155);">
+        <ui:Button text="Button" display-tooltip-when-elided="true" />
+        <ui:Button text="Button" display-tooltip-when-elided="true" />
+        <ui:Button text="Button" display-tooltip-when-elided="true" />
+    </ui:VisualElement>
+</ui:UXML>
