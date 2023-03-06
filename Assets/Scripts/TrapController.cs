@@ -7,6 +7,8 @@ public class TrapController : MonoBehaviour
     private Animator animator;
     private CircleCollider2D cc;
     private bool wasSuccessful = false;
+    private bool hasFailed = false;
+    private GameObject caughtObject;
     
     void Start()
     {
@@ -16,12 +18,19 @@ public class TrapController : MonoBehaviour
 
     void Update()
     {
-        if (wasSuccessful && animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "Mouth_Closing")
+        if (animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "Mouth_Closing")
         {
-            GameManager._instance.OnDeath();
-            wasSuccessful = false;
+            if (wasSuccessful)
+            {
+                GameManager._instance.OnDeath();
+                wasSuccessful = false;
+            }
+            else if (hasFailed)
+            {
+                Destroy(caughtObject);
+                Destroy(gameObject);
+            }
         }
-            
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -29,6 +38,11 @@ public class TrapController : MonoBehaviour
         animator.SetTrigger("TriggerTrap");
         if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
             wasSuccessful = true;
-        
+        else
+        {
+            hasFailed = true;
+            caughtObject = other.gameObject;
+        }
+            
     }
 }

@@ -119,10 +119,17 @@ public class PlayerController : MonoBehaviour
 
     void UpdateAnimationSeq()
     {
-        bool walking = animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "Cat_Walking";
-        bool idle = animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "Cat_Idle";
-        bool turning = animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "Cat_TurningAround";
-        bool landing = animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "Cat_Landing";
+        bool walking, idle, turning, landing;
+        if (animator.GetCurrentAnimatorClipInfo(0).Length > 0)
+        {
+            walking = animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "Cat_Walking";
+            idle = animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "Cat_Idle";
+            turning = animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "Cat_TurningAround";
+            landing = animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "Cat_Landing";
+        }
+        else
+            walking = idle = turning = landing = false;
+        
 
         if (!DO_ANIMATION) return;
 
