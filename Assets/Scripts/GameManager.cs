@@ -10,7 +10,6 @@ public class GameManager : MonoBehaviour
     GameObject[] killWhenFall;
     GameObject[] respawnWhenFall;
     Vector3[] respawnPoints;
-    bool wonState = false;
     bool deathState = false;
 
     void Awake() {
@@ -32,13 +31,12 @@ public class GameManager : MonoBehaviour
         respawnPoints = new Vector3[respawnWhenFall.Length];
         for (int i = 0; i < respawnWhenFall.Length; i++)
             respawnPoints[i] = respawnWhenFall[i].transform.position;
-        wonState = false;
         deathState = false;
     }
 
     void FixedUpdate()
     {
-        if (wonState || deathState) return;
+        if (deathState) return;
         for (int i = 0; i < killWhenFall.Length; i++)
             if (killWhenFall[i].transform.position.y < respawnHeight)
                 OnDeath();
@@ -54,33 +52,21 @@ public class GameManager : MonoBehaviour
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         Reset();
+        Time.timeScale = 1;
     }
 
     public void OnDeath()
     {
-        if (wonState) return;
         deathState = true;
         PlayerController._instance.OnDeath();
         DeathPanelController._instance.Show();
         Time.timeScale = 0.1f;
     }
 
-    public void WonLevel()
+    public void LoadLevel(string levelName)
     {
-        // PlayerController._instance.WonLevel();
-        if (deathState) return;
-        wonState = true;
-        WonPanelController._instance.Show();
-        Time.timeScale = 0.1f;
-    }
-
-    public void NextLevel()
-    {
-        Time.timeScale = 1;
-        Scene currentScene = SceneManager.GetActiveScene();
-         // this will be replaced with a level selection screen
-        if (currentScene.buildIndex + 1 < SceneManager.sceneCountInBuildSettings)
-            SceneManager.LoadScene(currentScene.buildIndex + 1);
+        Time.timeScale = 0;
+        SceneManager.LoadScene(levelName);
     }
 
     public void Retry()

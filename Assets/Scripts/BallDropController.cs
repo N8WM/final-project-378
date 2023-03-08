@@ -13,7 +13,7 @@ public class BallDropController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
-    void OnCollisionEnter2D(Collision2D other)
+    void OnTriggerEnter2D(Collider2D other)
     {
         rb.bodyType = RigidbodyType2D.Dynamic;
     }

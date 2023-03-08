@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     private ParticleSystem dust;
     private SpriteRenderer sr;
     private BoxCollider2D bc;
+    private DoorTarget targetDoor = null;
 
     private Vector2 defaultColliderOffset;
     private Vector2 defaultColliderSize;
@@ -58,8 +59,6 @@ public class PlayerController : MonoBehaviour
         defaultColliderOffset = bc.offset;
         defaultColliderSize = bc.size;
         colliderStartOffsetX = bc.offset.x;
-
-        
     }
 
     void FixedUpdate()
@@ -168,6 +167,11 @@ public class PlayerController : MonoBehaviour
 
     void OnJump(InputValue jumpValue)
     {
+        if (targetDoor != null && jumpValue.isPressed) {
+            GameManager._instance.LoadLevel(targetDoor.doorScene);
+            targetDoor = null;
+            return;
+        }
         if (jumpValue.isPressed && isGrounded && !isTouchingCeiling) {
             isJumping = true;
             isCrouching = false;
@@ -199,15 +203,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Door"))
-            GameManager._instance.WonLevel();
-    }
-
     public void OnDeath()
     {
         // TODO: Add death animation
+    }
+
+    public void SetTargetDoor(DoorTarget door)
+    {
+        targetDoor = door;
     }
 
     void GroundCheck()
