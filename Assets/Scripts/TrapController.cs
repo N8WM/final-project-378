@@ -20,7 +20,7 @@ public class TrapController : MonoBehaviour
     {
         if (animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "Mouth_Closing")
         {
-            if (wasSuccessful)
+            if (wasSuccessful && !hasFailed)
             {
                 GameManager._instance.OnDeath();
                 wasSuccessful = false;
