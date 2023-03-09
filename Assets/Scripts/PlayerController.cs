@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour
     private bool isPouncing = false;  // Just used for turning around
     private bool isTryingToCrouch = false; // Just used for automatically undoing crouch
     private bool isTouchingWall = false; // Prevents clipping under walls when turning around
+    private bool alreadyFlipped = false;
 
     private float movement = 0.0f;
     private float timeSinceLastJump = -1f;
@@ -132,9 +133,10 @@ public class PlayerController : MonoBehaviour
 
         if (!DO_ANIMATION) return;
 
-        if (turning)
+        if (turning && !alreadyFlipped)
         {
             sr.flipX = !sr.flipX;
+            alreadyFlipped = true;
             animator.SetBool("IsTurningAround", false);
         }
 
@@ -146,6 +148,7 @@ public class PlayerController : MonoBehaviour
             }
             else if ((walking || idle || landing) && !isTouchingWall)
                 animator.SetBool("IsTurningAround", true);
+            alreadyFlipped = false;
         }
         
         animator.SetFloat("SpeedX", rb.velocity.x);
