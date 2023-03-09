@@ -9,6 +9,9 @@ public class TrapController : MonoBehaviour
     private bool wasSuccessful = false;
     private bool hasFailed = false;
     private GameObject caughtObject;
+    public GameObject[] animationObjects;
+    public float playerDistanceForAnimation;
+    private bool playedAestheticAnimations = false;
     
     void Start()
     {
@@ -18,6 +21,8 @@ public class TrapController : MonoBehaviour
 
     void Update()
     {
+        PlayAestheticAnimations();
+
         if (animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "Mouth_Closing")
         {
             if (wasSuccessful && !hasFailed)
@@ -30,6 +35,21 @@ public class TrapController : MonoBehaviour
                 Destroy(caughtObject);
                 Destroy(gameObject);
             }
+        }
+    }
+
+    void PlayAestheticAnimations() {
+        if (!playedAestheticAnimations && playerDistanceForAnimation >= Vector2.Distance(
+            PlayerController._instance.transform.position,
+            transform.position
+        ))
+        {
+            for (int i = 0; i < animationObjects.Length; i++)
+            {
+                Animator anim = animationObjects[i].GetComponent<Animator>();
+                anim.SetTrigger("InRange");
+            }
+            playedAestheticAnimations = true;
         }
     }
 
