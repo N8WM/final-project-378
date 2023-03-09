@@ -6,11 +6,13 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager _instance;
+    public AudioSource[] backgroundMusic;
     public float respawnHeight = -10f;
     GameObject[] killWhenFall;
     GameObject[] respawnWhenFall;
     Vector3[] respawnPoints;
     bool deathState = false;
+    int musicPlaying = -1;
 
     void Awake() {
         if (GameObject.FindObjectsOfType<GameManager>().Length > 1 && GameManager._instance != this) {
@@ -22,6 +24,20 @@ public class GameManager : MonoBehaviour
         _instance = this;
 
         SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void Start()
+    {
+        backgroundMusic = GetComponents<AudioSource>();
+        string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+        if (sceneName == "Menu" || sceneName == "Credits") {
+            backgroundMusic[0].Play();
+            musicPlaying = 0;
+        }
+        else {
+            backgroundMusic[1].Play();
+            musicPlaying = 1;
+        }
     }
 
     void Reset()
@@ -53,6 +69,21 @@ public class GameManager : MonoBehaviour
     {
         Reset();
         Time.timeScale = 1;
+        string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+        if (musicPlaying == -1) return;
+        if (sceneName == "Menu" || sceneName == "Credits") {
+            if (musicPlaying == 1) {
+                backgroundMusic[1].Stop();
+                backgroundMusic[0].Play();
+                musicPlaying = 0;
+            }
+        } else {
+            if (musicPlaying == 0) {
+                backgroundMusic[0].Stop();
+                backgroundMusic[1].Play();
+                musicPlaying = 1;
+            }
+        }
     }
 
     public void OnDeath()

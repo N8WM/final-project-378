@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     private ParticleSystem dust;
     private SpriteRenderer sr;
     private BoxCollider2D bc;
-    private DoorTarget targetDoor = null;
+    private DoorTarget targetDoor;
 
     private Vector2 defaultColliderOffset;
     private Vector2 defaultColliderSize;
