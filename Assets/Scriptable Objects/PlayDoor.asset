@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ef343f804b1c5b94399e40fd1820ebeb, type: 3}
-  m_Name: ShekhinahDoor
+  m_Name: PlayDoor
   m_EditorClassIdentifier: 
-  doorTitle: Shekhinah
+  doorTitle: Play
   doorScene: Scenes/1_Shekhinah
   doorColor: {r: 0.59607846, g: 0.85490197, b: 0.9529412, a: 0.50980395}
   keepTitleVisible: 0
