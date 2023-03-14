@@ -10,9 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ef343f804b1c5b94399e40fd1820ebeb, type: 3}
-  m_Name: PlayDoor
+  m_Name: 10_KeterDoor
   m_EditorClassIdentifier: 
-  doorTitle: Play
-  doorScene: Scenes/1_Shekhinah
-  doorColor: {r: 0.59607846, g: 0.85490197, b: 0.9529412, a: 0.50980395}
+  doorTitle: Keter
+  doorScene: Scenes/10_Keter
+  doorColor: {r: 1, g: 1, b: 1, a: 0.50980395}
   keepTitleVisible: 0
+  locked: 1
+  destinations:
+  - {fileID: 11400000, guid: 2de4147b04d726e4db97dc6113731a19, type: 2}
+  - {fileID: 11400000, guid: 736acf4b19f78da4387232b45afe2fc2, type: 2}

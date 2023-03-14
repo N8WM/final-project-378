@@ -448,7 +448,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3113497767452423955, guid: dfb0f513ebc337f4f9364c284bddc6dd, type: 3}
       propertyPath: m_Name
-      value: Menu
+      value: MenuDoor
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dfb0f513ebc337f4f9364c284bddc6dd, type: 3}

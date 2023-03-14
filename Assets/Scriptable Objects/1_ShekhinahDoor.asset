@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ef343f804b1c5b94399e40fd1820ebeb, type: 3}
-  m_Name: CreditsDoor
+  m_Name: 1_ShekhinahDoor
   m_EditorClassIdentifier: 
-  doorTitle: Credits
-  doorScene: Scenes/Credits
-  doorColor: {r: 0.8116547, g: 0.59607846, b: 0.9529412, a: 0.50980395}
+  doorTitle: Shekhinah
+  doorScene: Scenes/1_Shekhinah
+  doorColor: {r: 0.59607846, g: 0.85490197, b: 0.9529412, a: 0.50980395}
   keepTitleVisible: 0
   locked: 0
   startLocked: 0
-  destinations: []
+  destinations:
+  - {fileID: 11400000, guid: acc387a5c6d00a84f868b9b069382764, type: 2}

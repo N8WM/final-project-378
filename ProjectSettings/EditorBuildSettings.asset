@@ -5,9 +5,6 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/Scenes/Menu.unity
     guid: 582511565e0f8614c91c0099c172b6f6
@@ -20,4 +17,28 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/2_Yesod.unity
     guid: 5da87ff44e162c14e9007f55dfea9a65
+  - enabled: 1
+    path: Assets/Scenes/3_Netzah.unity
+    guid: b865709c6e0553d4783e6d10a2cdd078
+  - enabled: 1
+    path: Assets/Scenes/4_Hod.unity
+    guid: 1de99236f6319014b9970c316217b1a5
+  - enabled: 1
+    path: Assets/Scenes/5_Tiferet.unity
+    guid: 77ad8ba250787aa4d8e71e168a83fcc5
+  - enabled: 1
+    path: Assets/Scenes/6_Hesed.unity
+    guid: 401cf3644bc76a44c964202e4fd7c58c
+  - enabled: 1
+    path: Assets/Scenes/7_Din.unity
+    guid: 3ea46263703aa1046aa9b30bdb129b72
+  - enabled: 1
+    path: Assets/Scenes/8_Hokhmah.unity
+    guid: 9f82582e58651b941979c80bdfbc9c74
+  - enabled: 1
+    path: Assets/Scenes/9_Binah.unity
+    guid: f51c4e761de452443a284f59e98ab68a
+  - enabled: 1
+    path: Assets/Scenes/10_Keter.unity
+    guid: 6eeece6c807f1d94b8332ab70fb20300
   m_configObjects: {}

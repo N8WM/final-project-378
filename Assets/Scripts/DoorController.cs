@@ -7,7 +7,9 @@ public class DoorController : MonoBehaviour
 {
     public DoorTarget doorTarget = null;
     private float targetUIAlpha = 0f;
+    private float targetIconAlpha = 0f;
     private float currentUIAlpha = 0f;
+    private float currentIconAlpha = 0f;
     private TextMeshProUGUI doorName;
     private SpriteRenderer doorShadow, enterIcon;
     private bool isPlayerInTrigger = false;
@@ -21,8 +23,12 @@ public class DoorController : MonoBehaviour
         if (doorTarget != null)
         {
             targetUIAlpha = 0f;
+            targetIconAlpha = 0f;
             doorName.text = doorTarget.doorTitle;
-            doorShadow.color = doorTarget.doorColor;
+            if (doorTarget.getLocked)
+                doorShadow.color = new Color(0,0,0,0);
+            else
+                doorShadow.color = doorTarget.doorColor;
             UpdateColors();
         }
         else Debug.LogError("DoorController: No DoorTarget assigned to door!");
@@ -31,17 +37,22 @@ public class DoorController : MonoBehaviour
     void UpdateColors()
     {
         currentUIAlpha = Mathf.Lerp(currentUIAlpha, targetUIAlpha, Time.deltaTime * 5f);
+        currentIconAlpha = Mathf.Lerp(currentIconAlpha, targetIconAlpha, Time.deltaTime * 5f);
         doorName.color = new Color(
             doorTarget.doorColor.r,
             doorTarget.doorColor.g,
             doorTarget.doorColor.b,
-            doorTarget.doorColor.a * (doorTarget.keepTitleVisible ? 1 : currentUIAlpha)
+            doorTarget.doorColor.a * (
+                (doorTarget.getLocked) ? 0 :
+                doorTarget.keepTitleVisible ? 1 :
+                currentUIAlpha
+            )
         );
         enterIcon.color = new Color(
             doorTarget.doorColor.r * 0.7f,
             doorTarget.doorColor.g * 0.7f,
             doorTarget.doorColor.b * 0.7f,
-            currentUIAlpha
+            currentIconAlpha
         );
     }
 
@@ -49,6 +60,10 @@ public class DoorController : MonoBehaviour
     {
         if (isPlayerInTrigger) targetUIAlpha = 1f;
         else targetUIAlpha = 0f;
+        if (PlayerController._instance.isMoving ||
+            !isPlayerInTrigger ||
+            doorTarget.getLocked) targetIconAlpha = 0f;
+        else targetIconAlpha = 1f;
         UpdateColors();
     }
 

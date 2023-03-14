@@ -16,3 +16,6 @@ MonoBehaviour:
   doorScene: Scenes/Menu
   doorColor: {r: 0, g: 0, b: 0, a: 0.7058824}
   keepTitleVisible: 0
+  locked: 0
+  startLocked: 0
+  destinations: []

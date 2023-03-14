@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEditor;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class GameManager : MonoBehaviour
     Vector3[] respawnPoints;
     bool deathState = false;
     int musicPlaying = -1;
+    [System.NonSerialized] public DoorTarget[] winUnlocks = {};
 
     void Awake() {
         if (GameObject.FindObjectsOfType<GameManager>().Length > 1 && GameManager._instance != this) {
@@ -20,9 +22,7 @@ public class GameManager : MonoBehaviour
             return;
         }
         DontDestroyOnLoad(gameObject);
-    
         _instance = this;
-
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
@@ -111,5 +111,15 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 1;
         SceneManager.LoadScene("Scenes/Menu"); // replace with menu scene name
+    }
+
+    public void ResetLevels()
+    {
+        string[] guids = AssetDatabase.FindAssets("t:DoorTarget");
+        foreach (string guid in guids) {
+            string path = AssetDatabase.GUIDToAssetPath(guid);
+            DoorTarget door = AssetDatabase.LoadAssetAtPath<DoorTarget>(path);
+            door.locked = door.startLocked;
+        }
     }
 }

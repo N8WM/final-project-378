@@ -40,6 +40,7 @@ public class PlayerController : MonoBehaviour
     private float colliderStartOffsetX;
 
     private float DELTA = 0.01f;
+    public bool isMoving { get { return Mathf.Abs(movement) > DELTA; } }
 
     void Awake()
     {
@@ -170,11 +171,6 @@ public class PlayerController : MonoBehaviour
 
     void OnJump(InputValue jumpValue)
     {
-        if (targetDoor != null && jumpValue.isPressed) {
-            GameManager._instance.LoadLevel(targetDoor.doorScene);
-            targetDoor = null;
-            return;
-        }
         if (jumpValue.isPressed && isGrounded && !isTouchingCeiling) {
             isJumping = true;
             isCrouching = false;
@@ -184,6 +180,17 @@ public class PlayerController : MonoBehaviour
 
     void OnCrouch(InputValue crouchValue)
     {
+        if (targetDoor != null && crouchValue.isPressed && !isMoving && !targetDoor.getLocked) {
+            foreach (DoorTarget door in GameManager._instance.winUnlocks)
+                door.locked = false;
+            GameManager._instance.winUnlocks = targetDoor.destinations;
+            GameManager._instance.LoadLevel(targetDoor.doorScene);
+            if (targetDoor.doorTitle.Equals("Reset")) {
+                GameManager._instance.ResetLevels();
+            }
+            targetDoor = null;
+            return;
+        }
         isTryingToCrouch = crouchValue.isPressed;
     }
 

@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef343f804b1c5b94399e40fd1820ebeb, type: 3}
+  m_Name: 2_YesodDoor
+  m_EditorClassIdentifier: 
+  doorTitle: Yesod
+  doorScene: Scenes/2_Yesod
+  doorColor: {r: 0.9647059, g: 0.3137255, b: 0.14901961, a: 0.50980395}
+  keepTitleVisible: 0
+  locked: 0
+  startLocked: 1
+  destinations:
+  - {fileID: 11400000, guid: f16b59fd838b30945b10f04fb4ae4e2b, type: 2}
+  - {fileID: 11400000, guid: fdd7a97283ae5fa408f343ef8226cf48, type: 2}
+  - {fileID: 11400000, guid: ed769879ee9cfd44cbf7ae7cc6b2b424, type: 2}
+  - {fileID: 11400000, guid: bb09aab8bf982a44aaa732c25809814b, type: 2}

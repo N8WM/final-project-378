@@ -10,12 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ef343f804b1c5b94399e40fd1820ebeb, type: 3}
-  m_Name: CreditsDoor
+  m_Name: 4_HodDoor
   m_EditorClassIdentifier: 
-  doorTitle: Credits
-  doorScene: Scenes/Credits
-  doorColor: {r: 0.8116547, g: 0.59607846, b: 0.9529412, a: 0.50980395}
+  doorTitle: Hod
+  doorScene: Scenes/4_Hod
+  doorColor: {r: 0.754717, g: 0.12388747, b: 0.54241866, a: 0.50980395}
   keepTitleVisible: 0
-  locked: 0
-  startLocked: 0
-  destinations: []
+  locked: 1
+  destinations:
+  - {fileID: 11400000, guid: acc387a5c6d00a84f868b9b069382764, type: 2}
+  - {fileID: 11400000, guid: fdd7a97283ae5fa408f343ef8226cf48, type: 2}
+  - {fileID: 11400000, guid: 72124c7fb398b604b87fd9d263425384, type: 2}

@@ -10,9 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ef343f804b1c5b94399e40fd1820ebeb, type: 3}
-  m_Name: ShekhinahDoor
+  m_Name: 6_HesedDoor
   m_EditorClassIdentifier: 
-  doorTitle: Shekhinah
-  doorScene: Scenes/1_Shekhinah
-  doorColor: {r: 0.59607846, g: 0.85490197, b: 0.9529412, a: 0.50980395}
+  doorTitle: Hesed
+  doorScene: Scenes/6_Hesed
+  doorColor: {r: 0.4017088, g: 0.8407323, b: 0.9811321, a: 0.50980395}
   keepTitleVisible: 0
+  locked: 1
+  destinations:
+  - {fileID: 11400000, guid: ed769879ee9cfd44cbf7ae7cc6b2b424, type: 2}
+  - {fileID: 11400000, guid: fdd7a97283ae5fa408f343ef8226cf48, type: 2}
+  - {fileID: 11400000, guid: 2de4147b04d726e4db97dc6113731a19, type: 2}
