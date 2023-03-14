@@ -13,6 +13,7 @@ public class DoorController : MonoBehaviour
     private TextMeshProUGUI doorName;
     private SpriteRenderer doorShadow, enterIcon;
     private bool isPlayerInTrigger = false;
+    private bool lockedCache;
 
     void Start()
     {
@@ -20,12 +21,14 @@ public class DoorController : MonoBehaviour
         doorName = transform.Find("UI/Name").gameObject.GetComponent<TextMeshProUGUI>();
         enterIcon = transform.Find("UI/Enter Icon").gameObject.GetComponent<SpriteRenderer>();
 
+        lockedCache = !doorTarget.unlockedInLevel;
+
         if (doorTarget != null)
         {
             targetUIAlpha = 0f;
             targetIconAlpha = 0f;
             doorName.text = doorTarget.doorTitle;
-            if (doorTarget.getLocked)
+            if (lockedCache && doorTarget.locked)
                 doorShadow.color = new Color(0,0,0,0);
             else
                 doorShadow.color = doorTarget.doorColor;
@@ -43,7 +46,7 @@ public class DoorController : MonoBehaviour
             doorTarget.doorColor.g,
             doorTarget.doorColor.b,
             doorTarget.doorColor.a * (
-                (doorTarget.getLocked) ? 0 :
+                (doorTarget.locked && lockedCache) ? 0 :
                 doorTarget.keepTitleVisible ? 1 :
                 currentUIAlpha
             )
@@ -62,7 +65,7 @@ public class DoorController : MonoBehaviour
         else targetUIAlpha = 0f;
         if (PlayerController._instance.isMoving ||
             !isPlayerInTrigger ||
-            doorTarget.getLocked) targetIconAlpha = 0f;
+            (doorTarget.locked && lockedCache)) targetIconAlpha = 0f;
         else targetIconAlpha = 1f;
         UpdateColors();
     }

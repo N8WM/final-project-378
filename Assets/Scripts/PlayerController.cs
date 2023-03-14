@@ -180,7 +180,7 @@ public class PlayerController : MonoBehaviour
 
     void OnCrouch(InputValue crouchValue)
     {
-        if (targetDoor != null && crouchValue.isPressed && !isMoving && !targetDoor.getLocked) {
+        if (targetDoor != null && crouchValue.isPressed && !isMoving && (targetDoor.unlockedInLevel || !targetDoor.locked)) {
             foreach (DoorTarget door in GameManager._instance.winUnlocks)
                 door.locked = false;
             GameManager._instance.winUnlocks = targetDoor.destinations;

@@ -12,8 +12,8 @@ public class DoorTarget : ScriptableObject
     public bool keepTitleVisible = false;
     public bool locked = true;
     public bool startLocked = true;
-    public bool getLocked { get {
-        return locked && !GameManager._instance.winUnlocks.Contains(this);
+    public bool unlockedInLevel { get {
+        return GameManager._instance.winUnlocks.Contains(this);
     } }
     public DoorTarget[] destinations;
 }
