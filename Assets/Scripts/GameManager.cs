@@ -110,6 +110,7 @@ public class GameManager : MonoBehaviour
     public void Menu()
     {
         Time.timeScale = 1;
+        ClearWinUnlocks();
         SceneManager.LoadScene("Scenes/Menu"); // replace with menu scene name
     }
 
@@ -121,5 +122,10 @@ public class GameManager : MonoBehaviour
             DoorTarget door = AssetDatabase.LoadAssetAtPath<DoorTarget>(path);
             door.locked = door.startLocked;
         }
+    }
+
+    void ClearWinUnlocks()
+    {
+        winUnlocks = new DoorTarget[] {};
     }
 }
