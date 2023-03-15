@@ -258,6 +258,11 @@ public class PlayerController : MonoBehaviour
         return sr.flipX ? -1 : 1;
     }
 
+    public bool GetIsGrounded()
+    {
+        return isGrounded;
+    }
+
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
