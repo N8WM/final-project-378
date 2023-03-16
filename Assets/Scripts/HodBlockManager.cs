@@ -8,7 +8,7 @@ public class HodBlockManager : MonoBehaviour
     public float blockSize = 2.5f;
     public float leftmostBlockXPos = -3.27f;
     public int blockCount = 5;
-    public float blockHeight = 75f;
+    public float blockHeight = 10f;
     public float maxBlockHeight = 25f;
     private float[] xPositions;
 

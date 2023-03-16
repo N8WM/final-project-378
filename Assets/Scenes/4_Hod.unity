@@ -389,7 +389,7 @@ MonoBehaviour:
   blockSize: 2.5
   leftmostBlockXPos: -3.27
   blockCount: 5
-  blockHeight: 75
+  blockHeight: 15
   maxBlockHeight: 25
 --- !u!1001 &926799342
 PrefabInstance:

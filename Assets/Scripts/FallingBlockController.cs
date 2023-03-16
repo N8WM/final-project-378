@@ -20,12 +20,12 @@ public class FallingBlockController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (gameObject.layer == moveableLayer)
-            rb.MovePosition(
-                rb.position + 
-                (new Vector2(0, -10) * Time.fixedDeltaTime) + 
-                (0.5f * new Vector2(0, -gravity) * Mathf.Pow(Time.fixedDeltaTime, 2f))
-            );
+        // if (gameObject.layer == moveableLayer)
+        //     rb.MovePosition(
+        //         rb.position + 
+        //         (new Vector2(0, -10) * Time.fixedDeltaTime) + 
+        //         (0.5f * new Vector2(0, -gravity) * Mathf.Pow(Time.fixedDeltaTime, 2f))
+        //     );
     }
 
 
@@ -36,9 +36,17 @@ public class FallingBlockController : MonoBehaviour
             gameObject.layer = groundLayer;
             bc.isTrigger = false;
             bc.offset = new Vector2(0, 0);
-            bc.size = new Vector2(1, 1);
+            bc.size = new Vector2(0.99f, 0.99f);
+            StartCoroutine(Freeze());
         }
             
+    }
+
+    IEnumerator Freeze()
+    {
+        yield return new WaitForSeconds(0.5f);
+        rb.isKinematic = true;
+        rb.constraints = RigidbodyConstraints2D.FreezeAll;
     }
 
     void OnTriggerStay2D(Collider2D other)
