@@ -180,15 +180,14 @@ public class PlayerController : MonoBehaviour
 
     void OnCrouch(InputValue crouchValue)
     {
-        if (targetDoor != null && crouchValue.isPressed && !isMoving && (targetDoor.unlockedInLevel || !targetDoor.locked)) {
-            foreach (DoorTarget door in GameManager._instance.winUnlocks)
-                door.locked = false;
-            GameManager._instance.winUnlocks = targetDoor.destinations;
-            GameManager._instance.LoadLevel(targetDoor.doorScene);
-            if (targetDoor.doorTitle.Equals("Reset")) {
-                GameManager._instance.ResetLevels();
-            }
-            targetDoor = null;
+        if (targetDoor != null &&
+            crouchValue.isPressed &&
+            !isMoving && (
+                targetDoor.unlockedInLevel ||
+                !targetDoor.locked
+            )
+        ) {
+            EnterDoor();
             return;
         }
         isTryingToCrouch = crouchValue.isPressed;
@@ -211,6 +210,18 @@ public class PlayerController : MonoBehaviour
                 bc.size = defaultColliderSize;
             }
         }
+    }
+
+    void EnterDoor()
+    {
+        foreach (DoorTarget door in GameManager._instance.winUnlocks)
+            door.locked = false;
+        if (GameManager._instance.currentLevelDoor != null)
+            GameManager._instance.currentLevelDoor.levelCompleted = true;
+        GameManager._instance.LoadLevel(targetDoor.doorScene);
+        if (targetDoor.doorTitle.Equals("Reset"))
+            GameManager._instance.ResetLevels();
+        targetDoor = null;
     }
 
     public void OnDeath()

@@ -11,7 +11,7 @@ public class DoorController : MonoBehaviour
     private float currentUIAlpha = 0f;
     private float currentIconAlpha = 0f;
     private TextMeshProUGUI doorName;
-    private SpriteRenderer doorShadow, enterIcon;
+    private SpriteRenderer doorShadow, enterIcon, completeIcon;
     private bool isPlayerInTrigger = false;
     private bool lockedCache;
 
@@ -20,6 +20,7 @@ public class DoorController : MonoBehaviour
         doorShadow = transform.Find("Aesthetic").gameObject.GetComponent<SpriteRenderer>();
         doorName = transform.Find("UI/Name").gameObject.GetComponent<TextMeshProUGUI>();
         enterIcon = transform.Find("UI/Enter Icon").gameObject.GetComponent<SpriteRenderer>();
+        completeIcon = transform.Find("UI/Complete Icon").gameObject.GetComponent<SpriteRenderer>();
 
         lockedCache = !doorTarget.unlockedInLevel;
 
@@ -32,6 +33,15 @@ public class DoorController : MonoBehaviour
                 doorShadow.color = new Color(0,0,0,0);
             else
                 doorShadow.color = doorTarget.doorColor;
+            if (doorTarget.levelCompleted)
+                completeIcon.color = new Color(
+                    doorTarget.doorColor.r * 0.7f,
+                    doorTarget.doorColor.g * 0.7f,
+                    doorTarget.doorColor.b * 0.7f,
+                    1.0f
+                );
+            else
+                completeIcon.color = new Color(0,0,0,0);
             UpdateColors();
         }
         else Debug.LogError("DoorController: No DoorTarget assigned to door!");

@@ -1443,6 +1443,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3454261867243554144, guid: a8f577b2ef777eb4fa2fcffbffe6fef5, type: 3}
+      propertyPath: currentLevelDoor
+      value: 
+      objectReference: {fileID: 11400000, guid: fdd7a97283ae5fa408f343ef8226cf48, type: 2}
     - target: {fileID: 3454261867243554145, guid: a8f577b2ef777eb4fa2fcffbffe6fef5, type: 3}
       propertyPath: m_RootOrder
       value: 0

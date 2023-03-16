@@ -5721,7 +5721,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   groundSpeed: 80
-  airSpeed: 6
+  airSpeed: 10
   maxSpeed: 5
   maxSpeedCrouching: 1.5
   jumpForce: 10

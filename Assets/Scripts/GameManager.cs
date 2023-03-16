@@ -14,10 +14,15 @@ public class GameManager : MonoBehaviour
     Vector3[] respawnPoints;
     bool deathState = false;
     int musicPlaying = -1;
-    [System.NonSerialized] public DoorTarget[] winUnlocks = {};
+    public DoorTarget[] winUnlocks { get {
+        if (currentLevelDoor == null) return new DoorTarget[] {};
+        return currentLevelDoor.destinations;
+    }}
+    public DoorTarget currentLevelDoor;
 
     void Awake() {
         if (GameObject.FindObjectsOfType<GameManager>().Length > 1 && GameManager._instance != this) {
+            GameManager._instance.currentLevelDoor = currentLevelDoor;
             Destroy(gameObject);
             return;
         }
@@ -110,7 +115,6 @@ public class GameManager : MonoBehaviour
     public void Menu()
     {
         Time.timeScale = 1;
-        ClearWinUnlocks();
         SceneManager.LoadScene("Scenes/Menu"); // replace with menu scene name
     }
 
@@ -121,11 +125,7 @@ public class GameManager : MonoBehaviour
             string path = AssetDatabase.GUIDToAssetPath(guid);
             DoorTarget door = AssetDatabase.LoadAssetAtPath<DoorTarget>(path);
             door.locked = door.startLocked;
+            door.levelCompleted = false;
         }
-    }
-
-    void ClearWinUnlocks()
-    {
-        winUnlocks = new DoorTarget[] {};
     }
 }
