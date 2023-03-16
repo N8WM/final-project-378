@@ -9,6 +9,7 @@ public class HodBlockManager : MonoBehaviour
     public float leftmostBlockXPos = -3.27f;
     public int blockCount = 5;
     public float blockHeight = 75f;
+    public float maxHeight = 17f;
     private float[] xPositions;
 
     void Start()
@@ -21,9 +22,17 @@ public class HodBlockManager : MonoBehaviour
     }
 
     IEnumerator blockSpawn() {
-        while (true) {
-            int i = Random.Range(0, blockCount);
-            Instantiate(blockPrefab, new Vector2(xPositions[i], blockHeight), Quaternion.identity);
+        while (PlayerController._instance.transform.position.y < maxHeight) {
+            float catX = PlayerController._instance.transform.position.x;
+            for (int i = 0; i < blockCount; i++)
+            {
+                if (catX <= xPositions[i] + (blockSize / 2))
+                {
+                    Instantiate(blockPrefab, new Vector2(xPositions[i], blockHeight), Quaternion.identity);
+                    break;
+                }
+                
+            }
             yield return new WaitForSeconds(3);
         }    
     }
