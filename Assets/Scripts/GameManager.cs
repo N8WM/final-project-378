@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
         return currentLevelDoor.destinations;
     }}
     public DoorTarget currentLevelDoor;
-    List<DoorTarget> doors = new List<DoorTarget>();
+    public DoorTarget[] doors = {};
 
     void Awake() {
         if (GameObject.FindObjectsOfType<GameManager>().Length > 1 && GameManager._instance != this) {
@@ -36,7 +36,6 @@ public class GameManager : MonoBehaviour
     {
         backgroundMusic = GetComponents<AudioSource>();
         string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
-        GetDoorTargets();
         if (sceneName == "Menu" || sceneName == "Credits") {
             backgroundMusic[0].Play();
             musicPlaying = 0;
@@ -125,16 +124,6 @@ public class GameManager : MonoBehaviour
         foreach (DoorTarget door in doors) {
             door.locked = door.startLocked;
             door.levelCompleted = false;
-        }
-    }
-
-    public void GetDoorTargets()
-    {
-        string[] guids = AssetDatabase.FindAssets("t:DoorTarget");
-        foreach (string guid in guids) {
-            string path = AssetDatabase.GUIDToAssetPath(guid);
-            DoorTarget door = AssetDatabase.LoadAssetAtPath<DoorTarget>(path);
-            doors.Add(door);
         }
     }
 }

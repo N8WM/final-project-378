@@ -48,6 +48,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   backgroundMusic: []
   respawnHeight: -10
+  currentLevelDoor: {fileID: 0}
+  doors:
+  - {fileID: 11400000, guid: 02b2bc6247470a649b8cb4c8944be27b, type: 2}
+  - {fileID: 11400000, guid: 52cab454b722007459640375ed9d199a, type: 2}
+  - {fileID: 11400000, guid: 58065e80f2fa60d4a910406d2c8aca5d, type: 2}
+  - {fileID: 11400000, guid: bb09aab8bf982a44aaa732c25809814b, type: 2}
+  - {fileID: 11400000, guid: acc387a5c6d00a84f868b9b069382764, type: 2}
+  - {fileID: 11400000, guid: ed769879ee9cfd44cbf7ae7cc6b2b424, type: 2}
+  - {fileID: 11400000, guid: f16b59fd838b30945b10f04fb4ae4e2b, type: 2}
+  - {fileID: 11400000, guid: fdd7a97283ae5fa408f343ef8226cf48, type: 2}
+  - {fileID: 11400000, guid: 4c0424bdaecf43545816275c0db2ee46, type: 2}
+  - {fileID: 11400000, guid: 72124c7fb398b604b87fd9d263425384, type: 2}
+  - {fileID: 11400000, guid: 2de4147b04d726e4db97dc6113731a19, type: 2}
+  - {fileID: 11400000, guid: 736acf4b19f78da4387232b45afe2fc2, type: 2}
+  - {fileID: 11400000, guid: 22ced164f22958241abd21805391ec58, type: 2}
 --- !u!82 &4429170145496114681
 AudioSource:
   m_ObjectHideFlags: 0
