@@ -29,7 +29,7 @@ public class HodBlockManager : MonoBehaviour
             {
                 if (catX <= xPositions[i] + (blockSize / 2))
                 {
-                    Instantiate(blockPrefab, new Vector2(xPositions[i], blockHeight), Quaternion.identity);
+                    Instantiate(blockPrefab, new Vector2(xPositions[i], PlayerController._instance.transform.position.y + blockHeight), Quaternion.identity);
                     break;
                 }   
             }
