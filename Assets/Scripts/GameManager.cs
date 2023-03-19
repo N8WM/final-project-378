@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEditor;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class GameManager : MonoBehaviour
 {
@@ -17,6 +19,7 @@ public class GameManager : MonoBehaviour
     Animator sceneTransitionAnim;
     bool deathState = false;
     int musicPlaying = -1;
+    public bool crtEffectEnabled { get; private set; } = true;
     public DoorTarget[] winUnlocks { get {
         if (currentLevelDoor == null) return new DoorTarget[] {};
         return currentLevelDoor.destinations;
@@ -48,6 +51,7 @@ public class GameManager : MonoBehaviour
             backgroundMusic[1].Play();
             musicPlaying = 1;
         }
+        SetCRTEffect(crtEffectEnabled);
     }
 
     void Reset()
@@ -94,6 +98,15 @@ public class GameManager : MonoBehaviour
                 musicPlaying = 1;
             }
         }
+    }
+
+    public void SetCRTEffect(bool enabled)
+    {
+        crtEffectEnabled = enabled;
+        Volume[] volumes = FindObjectsOfType<Volume>();
+        foreach (Volume volume in volumes)
+            if (volume.profile.TryGet(out LensDistortion ld))
+                ld.active = crtEffectEnabled;
     }
 
     public void OnDeath()
