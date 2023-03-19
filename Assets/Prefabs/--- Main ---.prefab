@@ -192,7 +192,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86bc25fc86064fc41abe149580512ad8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deathPanel: {fileID: 1571456140320963397}
+  pausePanel: {fileID: 1571456140320963397}
 --- !u!1 &1571456140320963397
 GameObject:
   m_ObjectHideFlags: 0
@@ -205,7 +205,7 @@ GameObject:
   - component: {fileID: 5551939617539333277}
   - component: {fileID: 4440946819084191239}
   m_Layer: 5
-  m_Name: DeathPanel
+  m_Name: PausePanel
   m_TagString: DeathPanel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6088,7 +6088,7 @@ GameObject:
   - component: {fileID: 8933960532523120242}
   - component: {fileID: 1689804596948126346}
   m_Layer: 5
-  m_Name: You Died Text
+  m_Name: Paused Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6142,7 +6142,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: You Died
+  m_text: Paused
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

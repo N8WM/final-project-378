@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DeathPanelController : MonoBehaviour
+public class PausePanelController : MonoBehaviour
 {
-    public static DeathPanelController _instance;
-    public GameObject deathPanel;
+    public static PausePanelController _instance;
+    public GameObject pausePanel;
 
     void Awake()
     {
@@ -23,12 +23,12 @@ public class DeathPanelController : MonoBehaviour
 
     public void Show()
     {
-        deathPanel.SetActive(true);
+        pausePanel.SetActive(true);
     }
 
     public void Hide()
     {
-        deathPanel.SetActive(false);
+        pausePanel.SetActive(false);
     }
 
     public void Retry()

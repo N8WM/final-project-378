@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     public static GameManager _instance;
     public AudioSource[] backgroundMusic;
     public float respawnHeight = -10f;
+    public bool isPaused = false;
     GameObject[] killWhenFall;
     GameObject[] respawnWhenFall;
     Vector3[] respawnPoints;
@@ -96,7 +97,7 @@ public class GameManager : MonoBehaviour
     {
         deathState = true;
         PlayerController._instance.OnDeath();
-        DeathPanelController._instance.Show();
+        PausePanelController._instance.Show();
         Time.timeScale = 0.1f;
     }
 
@@ -117,6 +118,20 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 1;
         SceneManager.LoadScene("Scenes/Menu"); // replace with menu scene name
+    }
+
+    public void Pause()
+    {
+        Time.timeScale = 0;
+        isPaused = true;
+        // PausePanelController._instance.Show();
+    }
+
+    public void Resume()
+    {
+        Time.timeScale = 1;
+        isPaused = false;
+        // PausePanelController._instance.Hide();
     }
 
     public void ResetLevels()
