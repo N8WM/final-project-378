@@ -193,6 +193,15 @@ public class PlayerController : MonoBehaviour
         isTryingToCrouch = crouchValue.isPressed;
     }
 
+    void OnPause(InputValue pauseValue)
+    {
+        if (pauseValue.isPressed)
+            if (GameManager._instance.isPaused)
+                GameManager._instance.Resume();
+            else
+                GameManager._instance.Pause();
+    }
+
     void PerformCrouch(bool shouldCrouch)
     {
         if (shouldCrouch)
@@ -218,7 +227,8 @@ public class PlayerController : MonoBehaviour
             door.locked = false;
         if (GameManager._instance.currentLevelDoor != null)
             GameManager._instance.currentLevelDoor.levelCompleted = true;
-        GameManager._instance.LoadLevel(targetDoor.doorScene);
+        Time.timeScale = 0f;
+        GameManager._instance.FadeToLevel(targetDoor.doorScene);
         if (targetDoor.doorTitle.Equals("Reset"))
             GameManager._instance.ResetLevels();
         targetDoor = null;

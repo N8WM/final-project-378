@@ -9,10 +9,11 @@ public class GameManager : MonoBehaviour
     public static GameManager _instance;
     public AudioSource[] backgroundMusic;
     public float respawnHeight = -10f;
-    public bool isPaused = false;
+    public bool isPaused { get; private set; } = false;
     GameObject[] killWhenFall;
     GameObject[] respawnWhenFall;
     Vector3[] respawnPoints;
+    Animator sceneTransitionAnim;
     bool deathState = false;
     int musicPlaying = -1;
     public DoorTarget[] winUnlocks { get {
@@ -36,6 +37,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         backgroundMusic = GetComponents<AudioSource>();
+        sceneTransitionAnim = GetComponentInChildren<Animator>();
         string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
         if (sceneName == "Menu" || sceneName == "Credits") {
             backgroundMusic[0].Play();
@@ -97,11 +99,26 @@ public class GameManager : MonoBehaviour
     {
         deathState = true;
         PlayerController._instance.OnDeath();
-        PausePanelController._instance.Show();
         Time.timeScale = 0.1f;
+        Retry();
     }
 
-    public void LoadLevel(string levelName)
+    public void FadeToLevel(string levelName)
+    {
+        sceneTransitionAnim.SetBool("fadeOut", true);
+        sceneTransitionAnim.speed = 1f;
+        StartCoroutine(LoadLevelFadeIn(levelName));
+    }
+
+    IEnumerator LoadLevelFadeIn(string levelName)
+    {
+        yield return new WaitForSecondsRealtime(1f);
+        LoadLevel(levelName);
+        sceneTransitionAnim.speed = 1f;
+        sceneTransitionAnim.SetBool("fadeOut", false);
+    }
+
+    void LoadLevel(string levelName)
     {
         Time.timeScale = 0;
         SceneManager.LoadScene(levelName);
@@ -109,29 +126,28 @@ public class GameManager : MonoBehaviour
 
     public void Retry()
     {
-        Time.timeScale = 1;
         Scene currentScene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(currentScene.name);
+        FadeToLevel(currentScene.name);
     }
 
     public void Menu()
     {
-        Time.timeScale = 1;
-        SceneManager.LoadScene("Scenes/Menu"); // replace with menu scene name
+        Time.timeScale = 0;
+        FadeToLevel("Scenes/Menu");
     }
 
     public void Pause()
     {
         Time.timeScale = 0;
         isPaused = true;
-        // PausePanelController._instance.Show();
+        PausePanelController._instance.Show();
     }
 
     public void Resume()
     {
         Time.timeScale = 1;
         isPaused = false;
-        // PausePanelController._instance.Hide();
+        PausePanelController._instance.Hide();
     }
 
     public void ResetLevels()
