@@ -61,6 +61,16 @@ public class PlayerController : MonoBehaviour
         defaultColliderOffset = bc.offset;
         defaultColliderSize = bc.size;
         colliderStartOffsetX = bc.offset.x;
+
+        if (GameManager._instance.spawnAtDoor != null) {
+            DoorController[] dctrls = GameObject.FindObjectsOfType<DoorController>();
+            foreach (DoorController dctrl in dctrls) {
+                if (dctrl.doorTarget == GameManager._instance.spawnAtDoor) {
+                    transform.position = dctrl.transform.position;
+                    break;
+                }
+            }
+        }
     }
 
     void FixedUpdate()
@@ -228,7 +238,7 @@ public class PlayerController : MonoBehaviour
         if (GameManager._instance.currentLevelDoor != null)
             GameManager._instance.currentLevelDoor.levelCompleted = true;
         Time.timeScale = 0f;
-        GameManager._instance.FadeToLevel(targetDoor.doorScene);
+        GameManager._instance.FadeToLevel(targetDoor.doorScene, targetDoor.doorScene.Equals("Scenes/Menu"));
         if (targetDoor.doorTitle.Equals("Reset"))
             GameManager._instance.ResetLevels();
         targetDoor = null;

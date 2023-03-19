@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public AudioSource[] backgroundMusic;
     public float respawnHeight = -10f;
     public bool isPaused { get; private set; } = false;
+    public DoorTarget spawnAtDoor { get; private set; } = null;
     GameObject[] killWhenFall;
     GameObject[] respawnWhenFall;
     Vector3[] respawnPoints;
@@ -103,8 +104,12 @@ public class GameManager : MonoBehaviour
         Retry();
     }
 
-    public void FadeToLevel(string levelName)
+    public void FadeToLevel(string levelName, bool setSpawnPos = false)
     {
+        if (setSpawnPos)
+            spawnAtDoor = currentLevelDoor;
+        else
+            spawnAtDoor = null;
         sceneTransitionAnim.SetBool("fadeOut", true);
         sceneTransitionAnim.speed = 1f;
         StartCoroutine(LoadLevelFadeIn(levelName));
@@ -133,7 +138,7 @@ public class GameManager : MonoBehaviour
     public void Menu()
     {
         Time.timeScale = 0;
-        FadeToLevel("Scenes/Menu");
+        FadeToLevel("Scenes/Menu", true);
     }
 
     public void Pause()
