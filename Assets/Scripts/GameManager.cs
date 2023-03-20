@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     Animator sceneTransitionAnim;
     bool deathState = false;
     int musicPlaying = -1;
+    float originalVolume;
     public bool crtEffectEnabled { get; private set; } = true;
     public DoorTarget[] winUnlocks { get {
         if (currentLevelDoor == null) return new DoorTarget[] {};
@@ -52,7 +53,46 @@ public class GameManager : MonoBehaviour
             backgroundMusic[1].Play();
             musicPlaying = 1;
         }
+        originalVolume = backgroundMusic[0].volume;
         SetCRTEffect(crtEffectEnabled);
+    }
+
+    IEnumerator FadeTrack()
+    {
+        float timeToFade = 1f;
+        float timeElaped = 0f;
+        string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+        if (sceneName == "Menu" || sceneName == "Credits") {
+            if (musicPlaying == 1) {
+                musicPlaying = 0;
+                backgroundMusic[0].Play();
+                while (timeElaped < timeToFade) {
+
+                    backgroundMusic[1].volume = Mathf.Lerp(originalVolume, 0, timeElaped / timeToFade);
+                    backgroundMusic[0].volume = Mathf.Lerp(0, originalVolume, timeElaped / timeToFade);
+                    timeElaped += Time.deltaTime;
+                    yield return null;
+                }
+                backgroundMusic[1].Stop();
+                backgroundMusic[1].volume = originalVolume;
+                backgroundMusic[0].volume = originalVolume;
+            }
+        } else {
+            if (musicPlaying == 0) {
+                musicPlaying = 1;
+                backgroundMusic[1].Play();
+                while (timeElaped < timeToFade) {
+
+                    backgroundMusic[0].volume = Mathf.Lerp(originalVolume, 0, timeElaped / timeToFade);
+                    backgroundMusic[1].volume = Mathf.Lerp(0, originalVolume, timeElaped / timeToFade);
+                    timeElaped += Time.deltaTime;
+                    yield return null;
+                }
+                backgroundMusic[0].Stop();
+                backgroundMusic[0].volume = originalVolume;
+                backgroundMusic[1].volume = originalVolume;
+            }
+        }
     }
 
     void Reset()
@@ -86,19 +126,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1;
         string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
         if (musicPlaying == -1) return;
-        if (sceneName == "Menu" || sceneName == "Credits") {
-            if (musicPlaying == 1) {
-                backgroundMusic[1].Stop();
-                backgroundMusic[0].Play();
-                musicPlaying = 0;
-            }
-        } else {
-            if (musicPlaying == 0) {
-                backgroundMusic[0].Stop();
-                backgroundMusic[1].Play();
-                musicPlaying = 1;
-            }
-        }
+        StartCoroutine(FadeTrack());
 
         if (GameIsWon) return;
         int levelCount = 0;
