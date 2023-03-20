@@ -9,9 +9,13 @@ public class TrapController : MonoBehaviour
     private bool wasSuccessful = false;
     private bool hasFailed = false;
     private GameObject caughtObject;
+
     public GameObject[] animationObjects;
+    public GameObject[] moveObjects;
     public float playerDistanceForAnimation;
+
     private bool playedAestheticAnimations = false;
+    private bool objectsHaveMoved = false;
     
     void Start()
     {
@@ -22,6 +26,7 @@ public class TrapController : MonoBehaviour
     void Update()
     {
         PlayAestheticAnimations();
+        MoveAfterAnimation();
 
         if (animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "Mouth_Closing")
         {
@@ -38,7 +43,8 @@ public class TrapController : MonoBehaviour
         }
     }
 
-    void PlayAestheticAnimations() {
+    void PlayAestheticAnimations() 
+    {
         if (!playedAestheticAnimations && playerDistanceForAnimation >= Vector2.Distance(
             PlayerController._instance.transform.position,
             transform.position
@@ -53,6 +59,18 @@ public class TrapController : MonoBehaviour
         }
     }
 
+    void MoveAfterAnimation()
+    {
+        if (!objectsHaveMoved && playedAestheticAnimations)
+        {
+            for (int i = 0; i < moveObjects.Length; i++)
+            {
+                moveObjects[i].GetComponent<BackgroundObjectController>().ActivateEffect();
+            }
+            objectsHaveMoved = true;
+        }
+    }
+
     void OnTriggerEnter2D(Collider2D other)
     {
         animator.SetTrigger("TriggerTrap");
@@ -63,6 +81,5 @@ public class TrapController : MonoBehaviour
             hasFailed = true;
             caughtObject = other.gameObject;
         }
-            
     }
 }

@@ -4,24 +4,43 @@ using UnityEngine;
 
 public class BackgroundObjectController : MonoBehaviour
 {
+    public enum WhatDo { MOVE, DELETE };
+
     private Animator animator;
     private BoxCollider2D bc;
-    public GameObject[] objectsToDelete;
+    private Rigidbody2D rb;
+    public WhatDo howToAffect;
+    public float maxY;
+    private bool isActivated = false;
 
     void Start()
     {
         animator = GetComponent<Animator>();
         bc = GetComponent<BoxCollider2D>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    void FixedUpdate()
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Movable"))
+        if (isActivated)
         {
-            animator.SetTrigger("Disappear");
-            for (int i = 0; i < objectsToDelete.Length; i++)
-                Destroy(objectsToDelete[i]);
+            switch (howToAffect)
+            {
+                case WhatDo.MOVE:
+                    rb.MovePosition(rb.position + (new Vector2(0, 0.35f) * Time.fixedDeltaTime));
+                    if (rb.position.y >= maxY)
+                        isActivated = false;
+                    break;
+                case WhatDo.DELETE:
+                    Destroy(gameObject);
+                    isActivated = false;
+                    break;
+            }
         }
-            
+    }
+
+    public void ActivateEffect()
+    {
+        isActivated = true;
     }
 }
