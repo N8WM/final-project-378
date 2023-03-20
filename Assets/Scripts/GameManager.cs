@@ -98,6 +98,20 @@ public class GameManager : MonoBehaviour
                 musicPlaying = 1;
             }
         }
+
+        int levelCount = 0;
+        int wonCount = 0;
+        foreach (DoorTarget door in doors) {
+            if (door.startLocked) {
+                levelCount++;
+                if (door.levelCompleted)
+                    wonCount++;
+            }
+        }
+
+        if (levelCount == wonCount) {
+            GameWon();
+        }
     }
 
     public void SetCRTEffect(bool enabled)
@@ -174,5 +188,11 @@ public class GameManager : MonoBehaviour
             door.locked = door.startLocked;
             door.levelCompleted = false;
         }
+    }
+
+    void GameWon()
+    {
+        // TODO: Show game won screen
+        print("Game won!");
     }
 }
