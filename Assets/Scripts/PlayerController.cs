@@ -246,7 +246,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnDeath()
     {
-        // TODO: Add death animation
+        animator.SetTrigger("HasDied");
     }
 
     public void SetTargetDoor(DoorTarget door)

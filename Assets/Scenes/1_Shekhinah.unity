@@ -1216,7 +1216,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06f57e9fc6a5540eb8b88f0f6baf8829, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectsToAffect: []
   howToAffect: 0
   maxY: 0
 --- !u!61 &339846479
@@ -1818,7 +1817,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06f57e9fc6a5540eb8b88f0f6baf8829, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectsToAffect: []
   howToAffect: 0
   maxY: 0.43775
 --- !u!1001 &673817618
@@ -2476,11 +2474,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3107946731681055953, guid: a08a583d77b7bdf46a61262a1d7c3462, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 88.6
       objectReference: {fileID: 0}
     - target: {fileID: 3107946731681055953, guid: a08a583d77b7bdf46a61262a1d7c3462, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a08a583d77b7bdf46a61262a1d7c3462, type: 3}
@@ -2802,7 +2800,7 @@ GameObject:
   - component: {fileID: 981799426}
   - component: {fileID: 981799427}
   m_Layer: 10
-  m_Name: R Skin / Iris
+  m_Name: R Skin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2863,7 +2861,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -158514591
   m_SortingLayer: 1
-  m_SortingOrder: 2
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: b6d27a423e6634ceda378c7ffbf2705a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -3889,7 +3887,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -158514591
   m_SortingLayer: 1
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: a70ea0a0fc11247d696242d684a0e2c4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
@@ -4028,7 +4026,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -158514591
   m_SortingLayer: 1
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: a70ea0a0fc11247d696242d684a0e2c4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -4051,7 +4049,7 @@ GameObject:
   - component: {fileID: 1599614903}
   - component: {fileID: 1599614904}
   m_Layer: 10
-  m_Name: L Skin / Iris
+  m_Name: L Skin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4112,7 +4110,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -158514591
   m_SortingLayer: 1
-  m_SortingOrder: 2
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: b6d27a423e6634ceda378c7ffbf2705a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
@@ -4470,7 +4468,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06f57e9fc6a5540eb8b88f0f6baf8829, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectsToAffect: []
   howToAffect: 0
   maxY: 0.43775
 --- !u!1001 &1836051443
