@@ -41,4 +41,5 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/10_Keter.unity
     guid: 6eeece6c807f1d94b8332ab70fb20300
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.input.settings: {fileID: 11400000, guid: 8448f90c10dbc4ec7a274e06ff916d23, type: 2}
