@@ -18,5 +18,6 @@ MonoBehaviour:
   keepTitleVisible: 0
   locked: 0
   startLocked: 0
+  levelCompleted: 0
   destinations:
   - {fileID: 11400000, guid: acc387a5c6d00a84f868b9b069382764, type: 2}

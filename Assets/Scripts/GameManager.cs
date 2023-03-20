@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     public float respawnHeight = -10f;
     public bool isPaused { get; private set; } = false;
     public DoorTarget spawnAtDoor { get; private set; } = null;
+    public bool GameIsWon { get; private set; } = false;
     GameObject[] killWhenFall;
     GameObject[] respawnWhenFall;
     Vector3[] respawnPoints;
@@ -99,6 +100,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        if (GameIsWon) return;
         int levelCount = 0;
         int wonCount = 0;
         foreach (DoorTarget door in doors) {
@@ -184,6 +186,7 @@ public class GameManager : MonoBehaviour
 
     public void ResetLevels()
     {
+        GameIsWon = false;
         foreach (DoorTarget door in doors) {
             door.locked = door.startLocked;
             door.levelCompleted = false;
@@ -193,6 +196,7 @@ public class GameManager : MonoBehaviour
     void GameWon()
     {
         // TODO: Show game won screen
+        GameIsWon = true;
         print("Game won!");
     }
 }
