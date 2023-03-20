@@ -17,6 +17,8 @@ MonoBehaviour:
   doorColor: {r: 0.9647059, g: 0.14901958, b: 0.691589, a: 0.50980395}
   keepTitleVisible: 0
   locked: 1
+  startLocked: 1
+  levelCompleted: 0
   destinations:
   - {fileID: 11400000, guid: acc387a5c6d00a84f868b9b069382764, type: 2}
   - {fileID: 11400000, guid: fdd7a97283ae5fa408f343ef8226cf48, type: 2}
