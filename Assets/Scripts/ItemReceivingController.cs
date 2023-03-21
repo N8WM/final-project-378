@@ -9,7 +9,9 @@ public class ItemReceivingController : MonoBehaviour
     public GameObject[] animateReceievers;
     private Animator[] receiverAnimators;
     public GameObject[] destroyAfter;
+    public GameObject[] turnOnObjects;
     private BoxCollider2D bc;
+    private bool hasTriggered = false;
 
     void Start()
     {
@@ -30,11 +32,17 @@ public class ItemReceivingController : MonoBehaviour
                 allFinished = false;
         }
 
-        if (allFinished)
+        if (hasTriggered && allFinished)
         { 
             for (int i = 0; i < destroyAfter.Length; i++)
             {
                 Destroy(destroyAfter[i]);
+            }
+
+            for (int i = 0; i < turnOnObjects.Length; i++)
+            {
+                if (!turnOnObjects[i].activeSelf)
+                    turnOnObjects[i].SetActive(true);
             }
         }
     }
@@ -48,6 +56,7 @@ public class ItemReceivingController : MonoBehaviour
                 for (int i = 0; i < animateReceievers.Length; i++)
                     receiverAnimators[i].SetTrigger("Destroy");
             }
+            hasTriggered = true;
         }
     }
 
