@@ -9,18 +9,12 @@ public class HesedLevelManager : MonoBehaviour
 {
     public GameObject player;
     public GameObject[] handTraps;
-    public float trapYDifference; // -1.6
+    public float trapYDifference; // -1.6f
     private int trapNumber = -1;
     private bool caughtInTrap = false;
 
     void Start()
     {
-        // Component[] components = player.GetComponents(typeof(Component));
-        // foreach(Component component in components)
-        // {
-        //     Debug.Log(component.ToString());
-        // }
-
     }
 
     void FixedUpdate()
@@ -37,8 +31,7 @@ public class HesedLevelManager : MonoBehaviour
                     trapNumber = i;
                     player.GetComponent<PlayerInput>().DeactivateInput();
                 }
-        }
-        
+        }  
     }
 
     void TriggerRisingTraps(GameObject trap)
@@ -55,11 +48,7 @@ public class HesedLevelManager : MonoBehaviour
             )
         );
         
-        
-
         if (trapRb.position.y - playerRb.position.y >= trapYDifference)
-        //     trapRb.MovePosition(trapRb.position + (new Vector2(0, 6f) * Time.fixedDeltaTime));
-        // else
         {
             if (caughtInTrap)
                 trapRb.position = new Vector2(playerRb.position.x, playerRb.position.y + trapYDifference);
