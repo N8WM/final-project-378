@@ -45,7 +45,6 @@ public class ItemReceivingController : MonoBehaviour
         {
             if (Vector2.Distance(transform.position, keyItem.transform.position) < keyItemDistance)
             {
-                Destroy(keyItem);
                 for (int i = 0; i < animateReceievers.Length; i++)
                     receiverAnimators[i].SetTrigger("Destroy");
             }
