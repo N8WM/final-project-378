@@ -12,8 +12,9 @@ public class FloatingPlatformController : MonoBehaviour
     };
     public Wave xMove;
     public Wave yMove;
+
     private Vector2 pInitial;
-    public Transform originalParent;
+    private Transform originalParent;
 
     void Start()
     {

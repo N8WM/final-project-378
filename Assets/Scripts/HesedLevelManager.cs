@@ -33,6 +33,49 @@ public class HesedLevelManager : MonoBehaviour
     public GameObject door;
     public Vector2 doorPosition;
 
+    void OnMove(InputValue movementValue)
+    {
+        if (enteredSelectionProcess)
+        {
+            float val = movementValue.Get<float>();
+            if (val < 0)
+            {
+                positionIndex = Modulo((positionIndex - 1), ringPositions.Length);
+                ring.transform.position = ringPositions[positionIndex];   
+            }
+            else if (val > 0)
+            {
+                positionIndex = Modulo((positionIndex + 1), ringPositions.Length);
+                ring.transform.position = ringPositions[positionIndex];
+            }
+        }
+    }
+
+    void OnSelect(InputValue selectValue)
+    {
+        if (enteredSelectionProcess)
+        {
+            enteredSelectionProcess = false;
+            Destroy(arrowIcons);
+            if (positionIndex == 2) // ring finger
+            {
+                Destroy(platformsToDelete);
+                player.GetComponent<PlayerInput>().ActivateInput();
+                bridgePlatform.transform.position = bridgePosition;
+                door.transform.position = doorPosition;
+                Destroy(gameObject);
+            } 
+            else
+            {
+                handTrap.transform.position = new Vector2(
+                    player.transform.position.x,
+                    handTrap.transform.position.y
+                );
+                
+            }
+        }
+    }
+
     void Update()
     {
         if (GameObject.Find("Ring Trigger") == null && !enteredSelectionProcess)
@@ -41,46 +84,6 @@ public class HesedLevelManager : MonoBehaviour
             ring.transform.position = ringPositions[positionIndex];
             player.GetComponent<PlayerInput>().DeactivateInput();
             arrowIcons.transform.position = arrowPosition;
-        }
-
-        if (Input.GetKeyDown("return"))
-        {
-            if (enteredSelectionProcess)
-            {
-                Destroy(arrowIcons);
-                if (positionIndex == 2) // ring finger
-                {
-                    Destroy(platformsToDelete);
-                    player.GetComponent<PlayerInput>().ActivateInput();
-                    bridgePlatform.transform.position = bridgePosition;
-                    door.transform.position = doorPosition;
-                    Destroy(gameObject);
-                } 
-                else
-                {
-                    handTrap.transform.position = new Vector2(
-                        player.transform.position.x,
-                        handTrap.transform.position.y
-                    );
-                    
-                }
-            }
-        }
-        else if (Input.GetKeyDown("left"))
-        {
-            if (enteredSelectionProcess)
-            {
-                positionIndex = Modulo((positionIndex - 1), ringPositions.Length);
-                ring.transform.position = ringPositions[positionIndex];
-            }
-        }
-        else if (Input.GetKeyDown("right"))
-        {
-            if (enteredSelectionProcess)
-            {
-                positionIndex = Modulo((positionIndex + 1), ringPositions.Length);
-                ring.transform.position = ringPositions[positionIndex];
-            }
         }
     }
 
