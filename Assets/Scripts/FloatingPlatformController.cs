@@ -13,6 +13,7 @@ public class FloatingPlatformController : MonoBehaviour
     public Wave xMove;
     public Wave yMove;
     private Vector2 pInitial;
+    public Transform originalParent;
 
     void Start()
     {
@@ -33,6 +34,7 @@ public class FloatingPlatformController : MonoBehaviour
     {
         if (collider.CompareTag("KillWhenFall")) // Player tag
         {
+            originalParent = collider.transform.parent;
             collider.transform.parent = this.transform;
         }
     }
@@ -41,7 +43,7 @@ public class FloatingPlatformController : MonoBehaviour
     {
         if (collider.CompareTag("KillWhenFall")) // Player tag
         {
-            collider.transform.parent = GameObject.Find("--- Main ---").transform;
+            collider.transform.parent = originalParent;
         }
     }
 }
