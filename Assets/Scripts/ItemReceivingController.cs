@@ -55,8 +55,8 @@ public class ItemReceivingController : MonoBehaviour
             {
                 for (int i = 0; i < animateReceievers.Length; i++)
                     receiverAnimators[i].SetTrigger("Destroy");
+                hasTriggered = true;
             }
-            hasTriggered = true;
         }
     }
 

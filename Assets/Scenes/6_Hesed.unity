@@ -2040,11 +2040,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4110813263412707669, guid: 956d0371bc34a400dafa82756597002c, type: 3}
       propertyPath: xMove.speed
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4110813263412707669, guid: 956d0371bc34a400dafa82756597002c, type: 3}
       propertyPath: yMove.speed
-      value: 0.5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4110813263412707669, guid: 956d0371bc34a400dafa82756597002c, type: 3}
       propertyPath: xMove.period
@@ -2060,7 +2060,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4110813263412707669, guid: 956d0371bc34a400dafa82756597002c, type: 3}
       propertyPath: yMove.amplitude
-      value: 2
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 4110813265157822165, guid: 956d0371bc34a400dafa82756597002c, type: 3}
       propertyPath: m_RootOrder
@@ -2984,6 +2984,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4110813263412707669, guid: 956d0371bc34a400dafa82756597002c, type: 3}
       propertyPath: xMove.speed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4110813263412707669, guid: 956d0371bc34a400dafa82756597002c, type: 3}
+      propertyPath: yMove.speed
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4110813263412707669, guid: 956d0371bc34a400dafa82756597002c, type: 3}
@@ -2996,7 +3000,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4110813263412707669, guid: 956d0371bc34a400dafa82756597002c, type: 3}
       propertyPath: yMove.amplitude
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4110813265157822165, guid: 956d0371bc34a400dafa82756597002c, type: 3}
       propertyPath: m_RootOrder
