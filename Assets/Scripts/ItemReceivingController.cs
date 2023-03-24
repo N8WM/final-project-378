@@ -6,11 +6,11 @@ public class ItemReceivingController : MonoBehaviour
 {
     public float keyItemDistance = 5f;
     public GameObject keyItem;
-    public GameObject[] animateReceievers;
-    private Animator[] receiverAnimators;
-    public GameObject[] destroyAfter;
-    public GameObject[] turnOnObjects;
-    public GameObject[] turnOffObjects;
+    public GameObject[] animateReceievers = {};
+    private Animator[] receiverAnimators = {};
+    public GameObject[] destroyAfter = {};
+    public GameObject[] turnOnObjects = {};
+    public GameObject[] turnOffObjects = {};
     private BoxCollider2D bc;
     private bool hasTriggered = false;
 
