@@ -46,4 +46,8 @@ public class ItemController : MonoBehaviour
             Time.deltaTime * smoothTime
         );
     }
+
+    public bool GetWasObtained() { 
+        return wasObtained; 
+    }
 }

@@ -10,6 +10,7 @@ public class ItemReceivingController : MonoBehaviour
     private Animator[] receiverAnimators;
     public GameObject[] destroyAfter;
     public GameObject[] turnOnObjects;
+    public GameObject[] turnOffObjects;
     private BoxCollider2D bc;
     private bool hasTriggered = false;
 
@@ -41,9 +42,16 @@ public class ItemReceivingController : MonoBehaviour
 
             for (int i = 0; i < turnOnObjects.Length; i++)
             {
-                if (!turnOnObjects[i].activeSelf)
+                if (!turnOnObjects[i].activeInHierarchy)
                     turnOnObjects[i].SetActive(true);
             }
+
+            for (int i = 0; i < turnOffObjects.Length; i++)
+            {
+                if (turnOffObjects[i].activeInHierarchy)
+                    turnOffObjects[i].SetActive(false);
+            }
+            hasTriggered = false;
         }
     }
 
