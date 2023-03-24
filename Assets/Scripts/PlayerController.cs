@@ -256,34 +256,53 @@ public class PlayerController : MonoBehaviour
 
     void GroundCheck()
     {
-        Collider2D col = Physics2D.OverlapBox(
+        Collider2D[] cols = Physics2D.OverlapBoxAll(
             new Vector2(transform.position.x + bc.offset.x, transform.position.y + bc.offset.y - (bc.size.y + bc.edgeRadius * 2f) / 2f),
             new Vector2(transform.localScale.x * (bc.size.x + bc.edgeRadius * 2f) - 0.06f, 0.05f),
             0f,
             LayerMask.GetMask("Ground") | LayerMask.GetMask("Movable")
         );
-        isGrounded = col != null && !col.isTrigger;
+        foreach (Collider2D col in cols) {
+            if (col != null && !col.isTrigger) {
+                isGrounded = true;
+                return;
+            }
+        }
+        isGrounded = false;
     }
 
     void CeilingCheck()
     {
-        isTouchingCeiling = Physics2D.OverlapBox(
+        Collider2D[] cols = Physics2D.OverlapBoxAll(
             new Vector2(transform.position.x + bc.offset.x, 0.2f + transform.position.y + bc.offset.y + (bc.size.y + bc.edgeRadius * 2f) / 2f),
             new Vector2(transform.localScale.x * (bc.size.x + bc.edgeRadius * 2f) - 0.06f, 0.1f),
             0f,
             LayerMask.GetMask("Ground")
         );
+        foreach (Collider2D col in cols) {
+            if (col != null && !col.isTrigger) {
+                isTouchingCeiling = true;
+                return;
+            }
+        }
+        isTouchingCeiling = false;
     }
 
     void WallCheck()
     {
-        Collider2D col = Physics2D.OverlapBox(
+        Collider2D[] cols = Physics2D.OverlapBoxAll(
             new Vector2(transform.position.x + bc.offset.x - ((sr.flipX ? -1f : 1f) * (bc.size.x + bc.edgeRadius * 2f) * 1.3f), transform.position.y + bc.offset.y),
             new Vector2(0.1f, transform.localScale.y * (bc.size.y + bc.edgeRadius * 2f) - 0.06f),
             0f,
             LayerMask.GetMask("Ground")
         );
-        isTouchingWall = col != null && !col.isTrigger;
+        foreach (Collider2D col in cols) {
+            if (col != null && !col.isTrigger) {
+                isTouchingWall = true;
+                return;
+            }
+        }
+        isTouchingWall = false;
     }
 
     public int GetDirection()
