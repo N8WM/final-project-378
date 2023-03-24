@@ -114,8 +114,11 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < respawnWhenFall.Length; i++) {
             if (respawnWhenFall[i].transform.position.y < respawnHeight) {
+                Rigidbody2D rb = respawnWhenFall[i].GetComponent<Rigidbody2D>();
                 respawnWhenFall[i].transform.position = respawnPoints[i];
-                respawnWhenFall[i].GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+                respawnWhenFall[i].transform.rotation = Quaternion.identity;
+                rb.velocity = Vector2.zero;
+                rb.angularVelocity = 0f;
             }
         }
     }

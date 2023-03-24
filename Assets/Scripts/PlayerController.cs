@@ -218,7 +218,7 @@ public class PlayerController : MonoBehaviour
         {
             isCrouching = true;
             bc.offset = new Vector2(bc.offset.x, -0.2f);
-            bc.size = new Vector2(bc.size.x, 0.53f);
+            bc.size = new Vector2(bc.size.x, 0.53f - bc.edgeRadius * 2f);
         }
         else
         { 
@@ -256,19 +256,20 @@ public class PlayerController : MonoBehaviour
 
     void GroundCheck()
     {
-        isGrounded = Physics2D.OverlapBox(
-            new Vector2(transform.position.x + bc.offset.x, transform.position.y + bc.offset.y - bc.size.y / 2f),
-            new Vector2(transform.localScale.x * bc.size.x - 0.06f, 0.1f),
+        Collider2D col = Physics2D.OverlapBox(
+            new Vector2(transform.position.x + bc.offset.x, transform.position.y + bc.offset.y - (bc.size.y + bc.edgeRadius * 2f) / 2f),
+            new Vector2(transform.localScale.x * (bc.size.x + bc.edgeRadius * 2f) - 0.06f, 0.05f),
             0f,
             LayerMask.GetMask("Ground") | LayerMask.GetMask("Movable")
         );
+        isGrounded = col != null && !col.isTrigger;
     }
 
     void CeilingCheck()
     {
         isTouchingCeiling = Physics2D.OverlapBox(
-            new Vector2(transform.position.x + bc.offset.x, 0.2f + transform.position.y + bc.offset.y + bc.size.y / 2f),
-            new Vector2(transform.localScale.x * bc.size.x - 0.06f, 0.1f),
+            new Vector2(transform.position.x + bc.offset.x, 0.2f + transform.position.y + bc.offset.y + (bc.size.y + bc.edgeRadius * 2f) / 2f),
+            new Vector2(transform.localScale.x * (bc.size.x + bc.edgeRadius * 2f) - 0.06f, 0.1f),
             0f,
             LayerMask.GetMask("Ground")
         );
@@ -276,12 +277,13 @@ public class PlayerController : MonoBehaviour
 
     void WallCheck()
     {
-        isTouchingWall = Physics2D.OverlapBox(
-            new Vector2(transform.position.x + bc.offset.x - ((sr.flipX ? -1f : 1f) * (bc.size.x) * 1.3f), transform.position.y + bc.offset.y),
-            new Vector2(0.1f, transform.localScale.y * bc.size.y - 0.06f),
+        Collider2D col = Physics2D.OverlapBox(
+            new Vector2(transform.position.x + bc.offset.x - ((sr.flipX ? -1f : 1f) * (bc.size.x + bc.edgeRadius * 2f) * 1.3f), transform.position.y + bc.offset.y),
+            new Vector2(0.1f, transform.localScale.y * (bc.size.y + bc.edgeRadius * 2f) - 0.06f),
             0f,
             LayerMask.GetMask("Ground")
         );
+        isTouchingWall = col != null && !col.isTrigger;
     }
 
     public int GetDirection()
@@ -299,16 +301,16 @@ public class PlayerController : MonoBehaviour
         Gizmos.color = Color.red;
         BoxCollider2D bc = GetComponent<BoxCollider2D>();
         Gizmos.DrawWireCube( // Ground
-            new Vector2(transform.position.x + bc.offset.x, transform.position.y + bc.offset.y - bc.size.y / 2f),
-            new Vector2(transform.localScale.x * bc.size.x - 0.06f, 0.1f)
+            new Vector2(transform.position.x + bc.offset.x, transform.position.y + bc.offset.y - (bc.size.y + bc.edgeRadius * 2f) / 2f),
+            new Vector2(transform.localScale.x * (bc.size.x + bc.edgeRadius * 2f) - 0.06f, 0.05f)
         );
         Gizmos.DrawWireCube( // Ceiling
-            new Vector2(transform.position.x + bc.offset.x, 0.2f + transform.position.y + bc.offset.y + bc.size.y / 2f),
-            new Vector2(transform.localScale.x * bc.size.x - 0.06f, 0.1f)
+            new Vector2(transform.position.x + bc.offset.x, 0.2f + transform.position.y + bc.offset.y + (bc.size.y + bc.edgeRadius * 2f) / 2f),
+            new Vector2(transform.localScale.x * (bc.size.x + bc.edgeRadius * 2f) - 0.06f, 0.1f)
         );
         Gizmos.DrawWireCube( // Wall
-            new Vector2(transform.position.x + bc.offset.x - (bc.size.y * 1.3f), transform.position.y + bc.offset.y),
-            new Vector2(0.1f, transform.localScale.y * bc.size.y - 0.06f)
+            new Vector2(transform.position.x + bc.offset.x - ((bc.size.y + bc.edgeRadius * 2f) * 1.3f), transform.position.y + bc.offset.y),
+            new Vector2(0.1f, transform.localScale.y * (bc.size.y + bc.edgeRadius * 2f) - 0.06f)
         );
     }
 }
