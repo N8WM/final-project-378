@@ -408,6 +408,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: --- Main ---
       objectReference: {fileID: 0}
+    - target: {fileID: 3107946731681055952, guid: a08a583d77b7bdf46a61262a1d7c3462, type: 3}
+      propertyPath: hesedManager
+      value: 
+      objectReference: {fileID: 636891310}
     - target: {fileID: 3107946731681055953, guid: a08a583d77b7bdf46a61262a1d7c3462, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.49
