@@ -6,6 +6,8 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController _instance;
+    public bool inputDisabled;
+    public HesedLevelManager hesedManager;
 
     public float groundSpeed = 80.0f;
     public float airSpeed = 6.0f;
@@ -176,31 +178,47 @@ public class PlayerController : MonoBehaviour
 
     void OnMove(InputValue movementValue)
     {
-        movement = movementValue.Get<float>();
+        if (!inputDisabled)
+            movement = movementValue.Get<float>();
+        else if (hesedManager != null)
+            hesedManager.Move(movementValue);
+    }
+
+    void OnSelect(InputValue selectValue)
+    {
+        if (inputDisabled && hesedManager != null)
+            hesedManager.Select(selectValue);
     }
 
     void OnJump(InputValue jumpValue)
     {
-        if (jumpValue.isPressed && isGrounded && !isTouchingCeiling) {
-            isJumping = true;
-            isCrouching = false;
+        if (!inputDisabled)
+        {
+            if (jumpValue.isPressed && isGrounded && !isTouchingCeiling) {
+                isJumping = true;
+                isCrouching = false;
+            }
+            else isJumping = false;
         }
-        else isJumping = false;
     }
 
     void OnCrouch(InputValue crouchValue)
     {
-        if (targetDoor != null &&
-            crouchValue.isPressed &&
-            !isMoving && (
-                targetDoor.unlockedInLevel ||
-                !targetDoor.locked
-            )
-        ) {
-            EnterDoor();
-            return;
+        if (!inputDisabled)
+        {
+            if (targetDoor != null &&
+                crouchValue.isPressed &&
+                !isMoving && (
+                    targetDoor.unlockedInLevel ||
+                    !targetDoor.locked
+                )
+            ) {
+                EnterDoor();
+                return;
+            }
+            isTryingToCrouch = crouchValue.isPressed;
         }
-        isTryingToCrouch = crouchValue.isPressed;
+        
     }
 
     void OnPause(InputValue pauseValue)

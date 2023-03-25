@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(PlayerInput))]
+// [RequireComponent(typeof(PlayerInput))]
 
 public class HesedLevelManager : MonoBehaviour
 {
@@ -34,7 +34,7 @@ public class HesedLevelManager : MonoBehaviour
     public GameObject door;
     public Vector2 doorPosition;
 
-    void OnMove(InputValue movementValue)
+    public void Move(InputValue movementValue)
     {
         if (enteredSelectionProcess)
         {
@@ -52,7 +52,7 @@ public class HesedLevelManager : MonoBehaviour
         }
     }
 
-    void OnSelect(InputValue selectValue)
+    public void Select(InputValue selectValue)
     {
         if (enteredSelectionProcess)
         {
@@ -61,7 +61,7 @@ public class HesedLevelManager : MonoBehaviour
             if (positionIndex == 2) // ring finger
             {
                 Destroy(platformsToDelete);
-                player.GetComponent<PlayerInput>().ActivateInput();
+                PlayerController._instance.inputDisabled = false;
                 bridgePlatform.transform.position = bridgePosition;
                 door.transform.position = doorPosition;
                 Destroy(gameObject);
@@ -83,7 +83,7 @@ public class HesedLevelManager : MonoBehaviour
         {
             enteredSelectionProcess = true;
             ring.transform.position = ringPositions[positionIndex];
-            player.GetComponent<PlayerInput>().DeactivateInput();
+            PlayerController._instance.inputDisabled = true;
             arrowIcons.transform.position = arrowPosition;
         }
     }
@@ -118,7 +118,7 @@ public class HesedLevelManager : MonoBehaviour
         else if (player.transform.position.x >= handTrap.transform.position.x)
         {
             triggeredHand = true;
-            player.GetComponent<PlayerInput>().DeactivateInput();
+            PlayerController._instance.inputDisabled = true;
         }
     }
 
