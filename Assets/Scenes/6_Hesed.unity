@@ -310,6 +310,7 @@ MonoBehaviour:
   - {fileID: 189154723}
   - {fileID: 1370251316}
   turnOnObjects: []
+  turnOffObjects: []
 --- !u!61 &189154726
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -950,6 +951,7 @@ MonoBehaviour:
   - {fileID: 784472801}
   turnOnObjects:
   - {fileID: 130291537}
+  turnOffObjects: []
 --- !u!1 &636891308
 GameObject:
   m_ObjectHideFlags: 0
@@ -999,6 +1001,7 @@ MonoBehaviour:
   handTrap: {fileID: 2016457658}
   trapYDifference: -1.6
   ring: {fileID: 1647085101}
+  ringTrigger: {fileID: 189154723}
   ringPositions:
   - {x: -17.224, y: 20.891}
   - {x: -16.7248, y: 20.76}

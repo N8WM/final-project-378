@@ -18,6 +18,7 @@ public class HesedLevelManager : MonoBehaviour
 
     [Header("Ring")]
     public GameObject ring;
+    public GameObject ringTrigger;
     public Vector2[] ringPositions;
     private bool enteredSelectionProcess = false;
     private int positionIndex = 0;
@@ -78,7 +79,7 @@ public class HesedLevelManager : MonoBehaviour
 
     void Update()
     {
-        if (GameObject.Find("Ring Trigger") == null && !enteredSelectionProcess)
+        if (ringTrigger == null && !enteredSelectionProcess)
         {
             enteredSelectionProcess = true;
             ring.transform.position = ringPositions[positionIndex];
